@@ -305,17 +305,17 @@
 - (uint32_t)intFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer
 {
 	uint32_t offset = *offsetPointer;
-	uint32_t n = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
+	uint32_t n = ntohl(*((uint32_t *)(bytes + offset)));
 	*offsetPointer += 4;
 	return n;
 }
 - (uint64_t)longFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer
 {
 	uint32_t offset = *offsetPointer;
-	uint64_t n = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
+	uint64_t n = ntohl(*((uint32_t *)(bytes + offset)));
 	n <<= 32;
 	offset += 4;
-	n += (uint64_t)((bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]);
+	n += ntohl(*((uint32_t *)(bytes + offset)));
 	*offsetPointer += 8;
 	return n;
 }
