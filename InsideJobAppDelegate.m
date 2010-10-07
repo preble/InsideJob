@@ -17,9 +17,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application 
 	
-	NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:@"../../world5-level.dat"]];
-	IJMinecraftLevel *level = [IJMinecraftLevel nbtContainerWithData:fileData];
-	[level inventory];
+//	NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:@"../../world5-level.dat"]];
+//	IJMinecraftLevel *level = [IJMinecraftLevel nbtContainerWithData:fileData];
+//	[level inventory];
 	
 //	NSData *newData = [level writeData];
 //	[newData writeToURL:[NSURL fileURLWithPath:@"../../output.nbt"] atomically:NO];

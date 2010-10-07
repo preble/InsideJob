@@ -14,6 +14,7 @@
 		668B2560125D5C1C0060BF71 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 668B255F125D5C1C0060BF71 /* libz.dylib */; };
 		668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */; };
 		668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */; };
+		668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -39,6 +40,8 @@
 		668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJMinecraftLevel.m; sourceTree = "<group>"; };
 		668B27B0125D8F8E0060BF71 /* IJInventoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryItem.h; sourceTree = "<group>"; };
 		668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryItem.m; sourceTree = "<group>"; };
+		668B27F0125D963F0060BF71 /* IJInventoryWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryWindowController.h; sourceTree = "<group>"; };
+		668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryWindowController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InsideJob-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InsideJob-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InsideJob.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsideJob.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,6 +64,7 @@
 			children = (
 				256AC3D80F4B6AC300CF3369 /* InsideJobAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* InsideJobAppDelegate.m */,
+				668B27F3125D96470060BF71 /* Interface */,
 				668B2551125D59BF0060BF71 /* Model */,
 				668B2559125D5BB90060BF71 /* Categories */,
 			);
@@ -156,6 +160,15 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		668B27F3125D96470060BF71 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				668B27F0125D963F0060BF71 /* IJInventoryWindowController.h */,
+				668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -227,6 +240,7 @@
 				668B255C125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m in Sources */,
 				668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */,
 				668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */,
+				668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
