@@ -28,13 +28,16 @@ typedef enum {
 	NBTType type;
 	NSString *stringValue;
 	NSNumber *numberValue;
+	NBTType listType;
 }
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, retain) NSMutableArray *children;
 @property (nonatomic, assign) NBTType type;
 @property (nonatomic, retain) NSString *stringValue;
 @property (nonatomic, retain) NSNumber *numberValue;
+@property (nonatomic, assign) NBTType listType;
 
 + (id)nbtContainerWithData:(NSData *)data;
 - (void)readFromData:(NSData *)data;
+- (NSData *)writeData;
 @end

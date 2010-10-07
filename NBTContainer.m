@@ -18,12 +18,22 @@
 - (uint32_t)intFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer;
 - (uint64_t)longFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer;
 - (NSString *)stringFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer;
+
+- (void)appendString:(NSString *)str toData:(NSMutableData *)data;
+- (void)appendByte:(uint8_t)v toData:(NSMutableData *)data;
+- (void)appendShort:(uint16_t)v toData:(NSMutableData *)data;
+- (void)appendInt:(uint32_t)v toData:(NSMutableData *)data;
+- (void)appendLong:(uint64_t)v toData:(NSMutableData *)data;
+- (void)appendFloat:(float)v toData:(NSMutableData *)data;
+- (void)appendDouble:(double)v toData:(NSMutableData *)data;
+
+- (NSData *)data;
 @end
 
 
 @implementation NBTContainer
 @synthesize name, children, type;
-@synthesize stringValue, numberValue;
+@synthesize stringValue, numberValue, listType;
 
 - (id)init
 {
@@ -59,12 +69,15 @@
 	[self populateWithBytes:bytes offset:&offset];
 }
 
+- (NSData *)writeData
+{
+	return [[self data] gzipDeflate];
+}
+
 - (void)populateWithBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer
 {
 	uint32_t offset = *offsetPointer;
-	self.type = bytes[offset];
-	offset += 1;
-	
+	self.type = [self byteFromBytes:bytes offset:&offset];
 	self.name = [self stringFromBytes:bytes offset:&offset];
 	
 	if (self.type == NBTTypeCompound)
@@ -74,9 +87,12 @@
 		
 		while (1)
 		{
-			NBTType childType = bytes[offset];
+			NBTType childType = bytes[offset]; // peek
 			if (childType == NBTTypeEnd)
+			{
+				offset += 1;
 				break;
+			}
 			
 			NBTContainer *child = [[NBTContainer alloc] init];
 			[child populateWithBytes:bytes offset:&offset];
@@ -87,8 +103,7 @@
 	}
 	else if (self.type == NBTTypeList)
 	{
-		NBTType listType = bytes[offset];
-		offset += 1;
+		listType = [self byteFromBytes:bytes offset:&offset];
 		uint32_t listLength = [self intFromBytes:bytes offset:&offset];
 		
 		NSLog(@">> start list named %@ with type=%d length=%d", self.name, listType, listLength);
@@ -96,14 +111,42 @@
 		self.children = [NSMutableArray array];
 		while (listLength > 0)
 		{
-			if (listType == NBTTypeDouble)
+			if (listType == NBTTypeFloat)
 			{
-				NSNumber *num = [NSNumber numberWithDouble:(double)[self longFromBytes:bytes offset:&offset]];
+				uint32_t i = [self intFromBytes:bytes offset:&offset];
+				float f = *((float*)&i);
+				NSNumber *num = [NSNumber numberWithFloat:f];
 				[self.children addObject:num];
+			}
+			else if (listType == NBTTypeDouble)
+			{
+				uint64_t l = [self longFromBytes:bytes offset:&offset];
+				double d = *((double*)&l);
+				NSNumber *num = [NSNumber numberWithDouble:d];
+				[self.children addObject:num];
+			}
+			else if (listType == NBTTypeCompound)
+			{
+				NSMutableArray *array = [NSMutableArray array];
+				while (1)
+				{
+					NBTType childType = bytes[offset]; // peek
+					if (childType == NBTTypeEnd)
+					{
+						offset += 1;
+						break;
+					}
+					
+					NBTContainer *child = [[NBTContainer alloc] init];
+					[child populateWithBytes:bytes offset:&offset];
+					[array addObject:child];
+					[child release];
+				}
+				[self.children addObject:array];
 			}
 			else
 			{
-				NSLog(@"Unhandled list type: %d", self.type);
+				NSLog(@"Unhandled list type: %d", listType);
 			}
 			listLength--;
 		}
@@ -113,22 +156,34 @@
 	else if (self.type == NBTTypeString)
 	{
 		self.stringValue = [self stringFromBytes:bytes offset:&offset];
-		NSLog(@"   name=%@ stringValue=%@", self.name, self.stringValue);
+		NSLog(@"   name=%@ string=%@", self.name, self.stringValue);
 	}
 	else if (self.type == NBTTypeLong)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedLongLong:[self longFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ long value=%qu", self.name, [self.numberValue unsignedLongLongValue]);
+		NSLog(@"   name=%@ long=%qu", self.name, [self.numberValue unsignedLongLongValue]);
+	}
+	else if (self.type == NBTTypeInt)
+	{
+		self.numberValue = [NSNumber numberWithUnsignedInt:[self intFromBytes:bytes offset:&offset]];
+		NSLog(@"   name=%@ int=0x%x", self.name, [self.numberValue unsignedIntValue]);
 	}
 	else if (self.type == NBTTypeShort)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedShort:[self shortFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ short value=0x%x", self.name, [self.numberValue unsignedShortValue]);
+		NSLog(@"   name=%@ short=0x%x", self.name, [self.numberValue unsignedShortValue]);
 	}
 	else if (self.type == NBTTypeByte)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedChar:[self byteFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ byte value=0x%x", self.name, [self.numberValue unsignedCharValue]);
+		NSLog(@"   name=%@ byte=0x%x", self.name, [self.numberValue unsignedCharValue]);
+	}
+	else if (self.type == NBTTypeFloat)
+	{
+		uint32_t i = [self intFromBytes:bytes offset:&offset];
+		float f = *((float *)&i);
+		self.numberValue = [NSNumber numberWithFloat:f];
+		NSLog(@"   name=%@ float=%f", self.name, [self.numberValue floatValue]);
 	}
 	else
 	{
@@ -137,6 +192,94 @@
 	
 	*offsetPointer = offset;
 }
+
+
+- (NSData *)data
+{
+	NSMutableData *data = [NSMutableData data];
+	[self appendByte:self.type toData:data];
+	[self appendString:self.name toData:data];
+	
+	if (self.type == NBTTypeCompound)
+	{
+		for (NBTContainer *child in self.children)
+		{
+			[data appendData:[child data]];
+		}
+		uint8_t t = NBTTypeEnd;
+		[data appendBytes:&t length:1];
+	}
+	else if (self.type == NBTTypeList)
+	{
+		[self appendByte:self.listType toData:data];
+		[self appendInt:self.children.count toData:data];
+		for (id item in self.children)
+		{
+			if (listType == NBTTypeCompound)
+			{
+				for (NBTContainer *i in item)
+				{
+					[data appendData:[i data]];
+				}
+				uint8_t t = NBTTypeEnd;
+				[data appendBytes:&t length:1];
+			}
+			else if (listType == NBTTypeFloat)
+			{
+				[self appendFloat:[item floatValue] toData:data];
+			}
+			else if (listType == NBTTypeDouble)
+			{
+				[self appendDouble:[item doubleValue] toData:data];
+			}
+			else
+			{
+				NSLog(@"Unhandled list type: %d", listType);
+			}
+
+		}
+	}
+	else if (self.type == NBTTypeString)
+	{
+		[self appendString:self.stringValue toData:data];
+	}
+	else if (self.type == NBTTypeLong)
+	{
+		[self appendLong:[self.numberValue unsignedLongLongValue] toData:data];
+	}
+	else if (self.type == NBTTypeShort)
+	{
+		[self appendShort:[self.numberValue unsignedShortValue] toData:data];
+	}
+	else if (self.type == NBTTypeInt)
+	{
+		[self appendInt:[self.numberValue unsignedIntValue] toData:data];
+	}
+	else if (self.type == NBTTypeByte)
+	{
+		[self appendByte:[self.numberValue unsignedCharValue] toData:data];
+	}
+	else if (self.type == NBTTypeDouble)
+	{
+		[self appendDouble:[self.numberValue doubleValue] toData:data];
+	}
+	else if (self.type == NBTTypeFloat)
+	{
+		[self appendFloat:[self.numberValue floatValue] toData:data];
+	}
+	else
+	{
+		NSLog(@"Unhandled type: %d", self.type);
+	}
+
+	
+	return data;
+}
+
+
+#pragma mark -
+#pragma mark Data Helpers
+
 
 - (NSString *)stringFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer
 {
@@ -170,23 +313,54 @@
 {
 	uint32_t offset = *offsetPointer;
 	uint64_t n = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
-	*offsetPointer += 4;
-	n += (uint64_t)((bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]) << 32;
-	*offsetPointer += 4;
+	n <<= 32;
+	offset += 4;
+	n += (uint64_t)((bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3]);
+	*offsetPointer += 8;
 	return n;
 }
 
 
-- (NSData *)data
+- (void)appendString:(NSString *)str toData:(NSMutableData *)data
 {
-	NSMutableData *data = [NSMutableData data];
-	uint8_t t = self.type;
-	[data appendBytes:&t length:1];
-	uint16_t nameLength = self.name.length;
-	[data appendBytes:&nameLength length:2];
-	[data appendBytes:[self.name UTF8String] length:self.name.length];
-	
-	return data;
+	[self appendShort:str.length toData:data];
+	[data appendData:[str dataUsingEncoding:NSUTF8StringEncoding]];
 }
+- (void)appendByte:(uint8_t)v toData:(NSMutableData *)data
+{
+	[data appendBytes:&v length:1];
+}
+- (void)appendShort:(uint16_t)v toData:(NSMutableData *)data
+{
+	v = htons(v);
+	[data appendBytes:&v length:2];
+}
+- (void)appendInt:(uint32_t)v toData:(NSMutableData *)data
+{
+	v = htonl(v);
+	[data appendBytes:&v length:4];
+}
+- (void)appendLong:(uint64_t)v toData:(NSMutableData *)data
+{
+	uint32_t v0 = htonl(v >> 32);
+	uint32_t v1 = htonl(v);
+	[data appendBytes:&v0 length:4];
+	[data appendBytes:&v1 length:4];
+}
+- (void)appendFloat:(float)v toData:(NSMutableData *)data
+{
+	uint32_t vi = *((uint32_t *)&v);
+	vi = htonl(vi);
+	[data appendBytes:&vi length:4];
+}
+- (void)appendDouble:(double)v toData:(NSMutableData *)data
+{
+	uint64_t vl = *((uint64_t *)&v);
+	uint32_t v0 = htonl(vl >> 32);
+	uint32_t v1 = htonl(vl);
+	[data appendBytes:&v0 length:4];
+	[data appendBytes:&v1 length:4];
+}
+
 
 @end
