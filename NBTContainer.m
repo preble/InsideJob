@@ -51,6 +51,15 @@
 	[super dealloc];
 }
 
++ (NBTContainer *)containerWithName:(NSString *)theName type:(NBTType)theType numberValue:(NSNumber *)theNumber
+{
+	NBTContainer *cont = [[[NBTContainer alloc] init] autorelease];
+	cont.name = theName;
+	cont.type = theType;
+	cont.numberValue = theNumber;
+	return cont;
+}
+
 
 + (id)nbtContainerWithData:(NSData *)data;
 {
@@ -73,6 +82,24 @@
 {
 	return [[self data] gzipDeflate];
 }
+
+- (NBTContainer *)childNamed:(NSString *)theName
+{
+	if (self.type != NBTTypeCompound)
+	{
+		NSLog(@"ERROR: Cannot find children inside a non-compound NBTContainer.");
+		return nil;
+	}
+	for (NBTContainer *container in self.children)
+	{
+		if ([container.name isEqual:theName])
+			return container;
+	}
+	return nil;
+}
+
+#pragma mark -
+#pragma mark Private I/O API
 
 - (void)populateWithBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer
 {

@@ -12,6 +12,8 @@
 		668B2556125D5A3E0060BF71 /* NBTContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B2555125D5A3E0060BF71 /* NBTContainer.m */; };
 		668B255C125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B255B125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m */; };
 		668B2560125D5C1C0060BF71 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 668B255F125D5C1C0060BF71 /* libz.dylib */; };
+		668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */; };
+		668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -33,6 +35,10 @@
 		668B255A125D5BCA0060BF71 /* NSData+CocoaDevAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevAdditions.h"; sourceTree = "<group>"; };
 		668B255B125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CocoaDevAdditions.m"; sourceTree = "<group>"; };
 		668B255F125D5C1C0060BF71 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		668B27AD125D8EFD0060BF71 /* IJMinecraftLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJMinecraftLevel.h; sourceTree = "<group>"; };
+		668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJMinecraftLevel.m; sourceTree = "<group>"; };
+		668B27B0125D8F8E0060BF71 /* IJInventoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryItem.h; sourceTree = "<group>"; };
+		668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryItem.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InsideJob-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InsideJob-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* InsideJob.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsideJob.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,6 +137,10 @@
 		668B2551125D59BF0060BF71 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				668B27AD125D8EFD0060BF71 /* IJMinecraftLevel.h */,
+				668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */,
+				668B27B0125D8F8E0060BF71 /* IJInventoryItem.h */,
+				668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */,
 				668B2554125D5A3E0060BF71 /* NBTContainer.h */,
 				668B2555125D5A3E0060BF71 /* NBTContainer.m */,
 			);
@@ -215,6 +225,8 @@
 				256AC3DA0F4B6AC300CF3369 /* InsideJobAppDelegate.m in Sources */,
 				668B2556125D5A3E0060BF71 /* NBTContainer.m in Sources */,
 				668B255C125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m in Sources */,
+				668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */,
+				668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
