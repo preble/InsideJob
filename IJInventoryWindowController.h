@@ -16,6 +16,7 @@
 	
 	NSOutlineView *outlineView;
 	NSPopUpButton *worldPopup;
+	NSTextField *statusTextField;
 	
 	NSArray *rootItems;
 	NSMutableArray *armorItem;
@@ -28,6 +29,7 @@
 
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic, assign) IBOutlet NSPopUpButton *worldPopup;
+@property (nonatomic, assign) IBOutlet NSTextField *statusTextField;
 
 - (IBAction)worldSelectionChanged:(id)sender;
 

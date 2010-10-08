@@ -15,7 +15,7 @@
 
 @synthesize outlineView;
 @synthesize worldPopup;
-
+@synthesize statusTextField;
 
 - (void)awakeFromNib
 {
@@ -23,6 +23,7 @@
 	quickItem = [NSMutableArray array];
 	inventoryItem = [NSMutableArray array];
 	rootItems = [[NSArray alloc] initWithObjects:armorItem, quickItem, inventoryItem, nil];
+	statusTextField.stringValue = @"";
 }
 - (void)dealloc
 {
@@ -97,6 +98,9 @@
 	
 	[outlineView reloadData];
 	[outlineView expandItem:nil expandChildren:YES];
+	
+	dirty = NO;
+	statusTextField.stringValue = @"";
 }
 
 - (void)saveToWorldAtIndex:(int)worldIndex
@@ -137,6 +141,15 @@
 	}
 	
 	[[level writeData] writeToURL:[NSURL fileURLWithPath:levelPath] atomically:NO];
+	
+	dirty = NO;
+	statusTextField.stringValue = @"Saved.";
+}
+
+- (void)markDirty
+{
+	dirty = YES;
+	statusTextField.stringValue = @"World has unsaved changes.";
 }
 
 #pragma mark -
@@ -154,6 +167,24 @@
 	[self saveToWorldAtIndex:worldIndex];
 }
 
+- (void)delete:(id)sender
+{
+	IJInventoryItem *item = [outlineView itemAtRow:[outlineView selectedRow]];
+	item.count = 0;
+	item.itemId = 0;
+	item.damage = 0;
+	[self markDirty];
+	[outlineView reloadItem:item];
+}
+
+- (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
+{
+	if (anItem.action == @selector(delete:))
+	{
+		return [outlineView selectedRow] != -1 && ![rootItems containsObject:[outlineView itemAtRow:[outlineView selectedRow]]];
+	}
+	return YES;
+}
 
 #pragma mark -
 #pragma mark Inventory Outline View
@@ -256,16 +287,19 @@
 	if ([tableColumn.identifier isEqual:@"id"])
 	{
 		invItem.itemId = [object shortValue];
+		[self markDirty];
 	}
 	else if ([tableColumn.identifier isEqual:@"count"])
 	{
 		invItem.count = [object unsignedCharValue];
 		if (invItem.count > 64)
 			invItem.count = 64;
+		[self markDirty];
 	}
 	else if ([tableColumn.identifier isEqual:@"damage"])
 	{
 		invItem.damage = [object shortValue];
+		[self markDirty];
 	}
 }
 
@@ -279,6 +313,7 @@
 		[[IJItemPickerWindowController sharedController] showPickerWithInitialItemId:invItem.itemId completionBlock:^(uint16_t itemId) {
 			invItem.itemId = itemId;
 			[outlineView reloadItem:item];
+			[self markDirty];
 		}];
 		return NO;
 	}
