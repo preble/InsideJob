@@ -18,6 +18,8 @@
 		668B290F125E40560060BF71 /* Items.csv in Resources */ = {isa = PBXBuildFile; fileRef = 668B28D8125E370A0060BF71 /* Items.csv */; };
 		668B2979125E5DD40060BF71 /* IJItemPickerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B2978125E5DD40060BF71 /* IJItemPickerWindowController.m */; };
 		668B297C125E5DF00060BF71 /* ItemPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 668B297B125E5DF00060BF71 /* ItemPicker.xib */; };
+		66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC2A125E9A51005A23F4 /* Credits.rtf */; };
+		66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC35125EA53E005A23F4 /* InsideJob.icns */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -49,8 +51,10 @@
 		668B2977125E5DD40060BF71 /* IJItemPickerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJItemPickerWindowController.h; sourceTree = "<group>"; };
 		668B2978125E5DD40060BF71 /* IJItemPickerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJItemPickerWindowController.m; sourceTree = "<group>"; };
 		668B297B125E5DF00060BF71 /* ItemPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPicker.xib; sourceTree = "<group>"; };
+		66BCFC2A125E9A51005A23F4 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		66BCFC35125EA53E005A23F4 /* InsideJob.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = InsideJob.icns; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InsideJob-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InsideJob-Info.plist"; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* InsideJob.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsideJob.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* Inside Job.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inside Job.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* InsideJob.app */,
+				8D1107320486CEB800E47090 /* Inside Job.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,11 +133,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66BCFC35125EA53E005A23F4 /* InsideJob.icns */,
 				8D1107310486CEB800E47090 /* InsideJob-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				668B297B125E5DF00060BF71 /* ItemPicker.xib */,
 				668B28D8125E370A0060BF71 /* Items.csv */,
+				66BCFC2A125E9A51005A23F4 /* Credits.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -198,7 +204,7 @@
 			name = "Inside Job";
 			productInstallPath = "$(HOME)/Applications";
 			productName = InsideJob;
-			productReference = 8D1107320486CEB800E47090 /* InsideJob.app */;
+			productReference = 8D1107320486CEB800E47090 /* Inside Job.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -237,6 +243,8 @@
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				668B290F125E40560060BF71 /* Items.csv in Resources */,
 				668B297C125E5DF00060BF71 /* ItemPicker.xib in Resources */,
+				66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */,
+				66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +301,7 @@
 				GCC_PREFIX_HEADER = InsideJob_Prefix.pch;
 				INFOPLIST_FILE = "InsideJob-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = InsideJob;
+				PRODUCT_NAME = "Inside Job";
 			};
 			name = Debug;
 		};
@@ -307,7 +315,7 @@
 				GCC_PREFIX_HEADER = InsideJob_Prefix.pch;
 				INFOPLIST_FILE = "InsideJob-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = InsideJob;
+				PRODUCT_NAME = "Inside Job";
 			};
 			name = Release;
 		};
