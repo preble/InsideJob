@@ -15,4 +15,12 @@
 
 @property (nonatomic, copy) NSArray *inventory; // Array of IJInventoryItem objects.
 
++ (NSString *)pathForWorldAtIndex:(int)worldIndex;
++ (NSString *)pathForLevelDatAtIndex:(int)worldIndex;
++ (NSString *)pathForSessionLockAtIndex:(int)worldIndex;
+
++ (int64_t)writeToSessionLockAtIndex:(int)worldIndex;
++ (BOOL)checkSessionLockAtIndex:(int)worldIndex value:(int64_t)checkValue;
+
+
 @end

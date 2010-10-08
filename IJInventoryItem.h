@@ -8,6 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+// See: http://www.minecraftwiki.net/wiki/Data_values
+#define IJInventorySlotQuickFirst   (0)
+#define IJInventorySlotQuickLast    (8)
+#define IJInventorySlotNormalFirst  (9)
+#define IJInventorySlotNormalLast  (35)
+#define IJInventorySlotArmorLast  (103) // head
+#define IJInventorySlotArmorFirst (100) // feet
+
 
 @interface IJInventoryItem : NSObject {
 	uint16_t itemId;
@@ -19,5 +27,11 @@
 @property (nonatomic, assign) uint16_t damage;
 @property (nonatomic, assign) uint8_t count;
 @property (nonatomic, assign) uint8_t slot;
+
+@property (nonatomic, readonly) NSString *itemName;
+
++ (id)emptyItemWithSlot:(uint8_t)slot;
+
++ (NSDictionary *)itemIdLookup;
 
 @end

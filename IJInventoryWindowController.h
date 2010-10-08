@@ -8,9 +8,27 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class IJMinecraftLevel;
 
 @interface IJInventoryWindowController : NSWindowController {
-
+	IJMinecraftLevel *level;
+	NSArray *inventory;
+	
+	NSOutlineView *outlineView;
+	NSPopUpButton *worldPopup;
+	
+	NSArray *rootItems;
+	NSMutableArray *armorItem;
+	NSMutableArray *quickItem;
+	NSMutableArray *inventoryItem;
+	
+	BOOL dirty;
+	int64_t sessionLockValue;
 }
+
+@property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic, assign) IBOutlet NSPopUpButton *worldPopup;
+
+- (IBAction)worldSelectionChanged:(id)sender;
 
 @end
