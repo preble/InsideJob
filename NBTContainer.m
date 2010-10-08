@@ -11,6 +11,17 @@
 #import "NSData+CocoaDevAdditions.h"
 
 
+#ifndef NBT_LOGGING
+#define NBT_LOGGING 0
+#endif
+
+#if NBT_LOGGING
+#define NBTLog(format, ...) NSLog(format, ##__VA_ARGS__)
+#else
+#define NBTLog(format, ...) while(0)
+#endif
+
+
 @interface NBTContainer ()
 - (void)populateWithBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer;
 - (uint8_t)byteFromBytes:(const uint8_t *)bytes offset:(uint32_t *)offsetPointer;
@@ -109,7 +120,7 @@
 	
 	if (self.type == NBTTypeCompound)
 	{
-		NSLog(@">> start compound named %@", self.name);
+		NBTLog(@">> start compound named %@", self.name);
 		self.children = [NSMutableArray array];
 		
 		while (1)
@@ -126,14 +137,14 @@
 			[self.children addObject:child];
 			[child release];
 		}
-		NSLog(@"<< end compound %@", self.name);
+		NBTLog(@"<< end compound %@", self.name);
 	}
 	else if (self.type == NBTTypeList)
 	{
 		listType = [self byteFromBytes:bytes offset:&offset];
 		uint32_t listLength = [self intFromBytes:bytes offset:&offset];
 		
-		NSLog(@">> start list named %@ with type=%d length=%d", self.name, listType, listLength);
+		NBTLog(@">> start list named %@ with type=%d length=%d", self.name, listType, listLength);
 		
 		self.children = [NSMutableArray array];
 		while (listLength > 0)
@@ -178,39 +189,39 @@
 			listLength--;
 		}
 		
-		NSLog(@"<< end list %@", self.name);
+		NBTLog(@"<< end list %@", self.name);
 	}	
 	else if (self.type == NBTTypeString)
 	{
 		self.stringValue = [self stringFromBytes:bytes offset:&offset];
-		NSLog(@"   name=%@ string=%@", self.name, self.stringValue);
+		NBTLog(@"   name=%@ string=%@", self.name, self.stringValue);
 	}
 	else if (self.type == NBTTypeLong)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedLongLong:[self longFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ long=%qu", self.name, [self.numberValue unsignedLongLongValue]);
+		NBTLog(@"   name=%@ long=%qu", self.name, [self.numberValue unsignedLongLongValue]);
 	}
 	else if (self.type == NBTTypeInt)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedInt:[self intFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ int=0x%x", self.name, [self.numberValue unsignedIntValue]);
+		NBTLog(@"   name=%@ int=0x%x", self.name, [self.numberValue unsignedIntValue]);
 	}
 	else if (self.type == NBTTypeShort)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedShort:[self shortFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ short=0x%x", self.name, [self.numberValue unsignedShortValue]);
+		NBTLog(@"   name=%@ short=0x%x", self.name, [self.numberValue unsignedShortValue]);
 	}
 	else if (self.type == NBTTypeByte)
 	{
 		self.numberValue = [NSNumber numberWithUnsignedChar:[self byteFromBytes:bytes offset:&offset]];
-		NSLog(@"   name=%@ byte=0x%x", self.name, [self.numberValue unsignedCharValue]);
+		NBTLog(@"   name=%@ byte=0x%x", self.name, [self.numberValue unsignedCharValue]);
 	}
 	else if (self.type == NBTTypeFloat)
 	{
 		uint32_t i = [self intFromBytes:bytes offset:&offset];
 		float f = *((float *)&i);
 		self.numberValue = [NSNumber numberWithFloat:f];
-		NSLog(@"   name=%@ float=%f", self.name, [self.numberValue floatValue]);
+		NBTLog(@"   name=%@ float=%f", self.name, [self.numberValue floatValue]);
 	}
 	else
 	{
