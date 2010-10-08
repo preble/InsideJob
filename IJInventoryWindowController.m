@@ -130,7 +130,7 @@
 	
 	[level setInventory:newInventory];
 	
-	NSString *backupPath = [levelPath stringByAppendingPathExtension:@".insidejobbackup"];
+	NSString *backupPath = [levelPath stringByAppendingPathExtension:@"insidejobbackup"];
 	
 	BOOL success;
 	NSError *error = nil;
