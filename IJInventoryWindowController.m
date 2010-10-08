@@ -23,10 +23,6 @@
 	quickItem = [NSMutableArray array];
 	inventoryItem = [NSMutableArray array];
 	rootItems = [[NSArray alloc] initWithObjects:armorItem, quickItem, inventoryItem, nil];
-	
-	[self worldSelectionChanged:nil];
-	
-	[outlineView expandItem:nil expandChildren:YES];
 }
 - (void)dealloc
 {
@@ -100,6 +96,7 @@
 	}
 	
 	[outlineView reloadData];
+	[outlineView expandItem:nil expandChildren:YES];
 }
 
 - (void)saveToWorldAtIndex:(int)worldIndex

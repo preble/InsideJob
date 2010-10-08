@@ -8,10 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class IJInventoryWindowController;
+
 @interface InsideJobAppDelegate : NSObject <NSApplicationDelegate> {
-    NSWindow *window;
+    IJInventoryWindowController *inventoryWindowController;
 }
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet IJInventoryWindowController *inventoryWindowController;
 
 @end

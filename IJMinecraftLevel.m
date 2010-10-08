@@ -129,6 +129,12 @@
 {
 	NSString *path = [IJMinecraftLevel pathForSessionLockAtIndex:worldIndex];
 	NSData *data = [NSData dataWithContentsOfFile:path];
+
+	if (!data)
+	{
+		NSLog(@"Failed to read session lock at %@", path);
+		return;
+	}
 	
 	int64_t milliseconds = [IJMinecraftLevel int64FromData:data];
 	return checkValue == milliseconds;

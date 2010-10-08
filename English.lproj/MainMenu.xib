@@ -568,7 +568,7 @@
 											<int key="NSTag">3</int>
 											<reference key="NSTarget" ref="800758381"/>
 										</object>
-										<object class="NSMenuItem" id="845457592">
+										<object class="NSMenuItem" id="555632285">
 											<reference key="NSMenu" ref="887087914"/>
 											<string key="NSTitle">World 4</string>
 											<string key="NSKeyEquiv"/>
@@ -580,7 +580,7 @@
 											<int key="NSTag">4</int>
 											<reference key="NSTarget" ref="800758381"/>
 										</object>
-										<object class="NSMenuItem" id="140705827">
+										<object class="NSMenuItem" id="505406995">
 											<reference key="NSMenu" ref="887087914"/>
 											<string key="NSTitle">World 5</string>
 											<string key="NSKeyEquiv"/>
@@ -813,7 +813,7 @@
 													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="69625062"/>
 												</object>
-												<object class="NSTableColumn" id="390815774">
+												<object class="NSTableColumn" id="613166275">
 													<string key="NSIdentifier">id</string>
 													<double key="NSWidth">42</double>
 													<double key="NSMinWidth">10</double>
@@ -826,12 +826,12 @@
 														<reference key="NSBackgroundColor" ref="650783734"/>
 														<reference key="NSTextColor" ref="115003830"/>
 													</object>
-													<object class="NSTextFieldCell" key="NSDataCell" id="810553899">
+													<object class="NSTextFieldCell" key="NSDataCell" id="655685817">
 														<int key="NSCellFlags">337772096</int>
 														<int key="NSCellFlags2">-2147481600</int>
 														<string key="NSContents">Text Cell</string>
 														<reference key="NSSupport" ref="731765667"/>
-														<object class="NSNumberFormatter" key="NSFormatter" id="514584689">
+														<object class="NSNumberFormatter" key="NSFormatter" id="392526581">
 															<object class="NSMutableDictionary" key="NS.attributes">
 																<bool key="EncodedWithXMLCoder">YES</bool>
 																<object class="NSArray" key="dict.sortedKeys">
@@ -1264,14 +1264,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">window</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="972006081"/>
-					</object>
-					<int key="connectionID">532</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window</string>
 						<reference key="source" ref="760161335"/>
 						<reference key="destination" ref="972006081"/>
 					</object>
@@ -1324,6 +1316,14 @@
 						<reference key="destination" ref="379067245"/>
 					</object>
 					<int key="connectionID">584</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">inventoryWindowController</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="760161335"/>
+					</object>
+					<int key="connectionID">590</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1760,8 +1760,8 @@
 							<reference ref="271797919"/>
 							<reference ref="815864939"/>
 							<reference ref="301692191"/>
-							<reference ref="845457592"/>
-							<reference ref="140705827"/>
+							<reference ref="555632285"/>
+							<reference ref="505406995"/>
 						</object>
 						<reference key="parent" ref="800758381"/>
 					</object>
@@ -1811,7 +1811,7 @@
 							<reference ref="231529269"/>
 							<reference ref="82774056"/>
 							<reference ref="212305399"/>
-							<reference ref="390815774"/>
+							<reference ref="613166275"/>
 						</object>
 						<reference key="parent" ref="489307225"/>
 					</object>
@@ -1896,36 +1896,36 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">585</int>
-						<reference key="object" ref="845457592"/>
+						<reference key="object" ref="555632285"/>
 						<reference key="parent" ref="887087914"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">586</int>
-						<reference key="object" ref="140705827"/>
+						<reference key="object" ref="505406995"/>
 						<reference key="parent" ref="887087914"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">587</int>
-						<reference key="object" ref="390815774"/>
+						<reference key="object" ref="613166275"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="810553899"/>
+							<reference ref="655685817"/>
 						</object>
 						<reference key="parent" ref="69625062"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">588</int>
-						<reference key="object" ref="810553899"/>
+						<reference key="object" ref="655685817"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="514584689"/>
+							<reference ref="392526581"/>
 						</object>
-						<reference key="parent" ref="390815774"/>
+						<reference key="parent" ref="613166275"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">589</int>
-						<reference key="object" ref="514584689"/>
-						<reference key="parent" ref="810553899"/>
+						<reference key="object" ref="392526581"/>
+						<reference key="parent" ref="655685817"/>
 					</object>
 				</object>
 			</object>
@@ -2248,7 +2248,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">589</int>
+			<int key="maxID">590</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2308,14 +2308,14 @@
 					<string key="className">InsideJobAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">window</string>
-						<string key="NS.object.0">NSWindow</string>
+						<string key="NS.key.0">inventoryWindowController</string>
+						<string key="NS.object.0">IJInventoryWindowController</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">window</string>
+						<string key="NS.key.0">inventoryWindowController</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">window</string>
-							<string key="candidateClassName">NSWindow</string>
+							<string key="name">inventoryWindowController</string>
+							<string key="candidateClassName">IJInventoryWindowController</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
