@@ -11,7 +11,7 @@
 
 @implementation IJItemPickerWindowController
 
-@synthesize tableView;
+@synthesize tableView, searchField;
 
 + (IJItemPickerWindowController *)sharedController
 {
@@ -37,6 +37,8 @@
 - (void)showPickerWithInitialItemId:(uint16_t)initialItemId completionBlock:(void(^)(uint16_t itemId))theBlock
 {
 	[self showWindow:nil];
+	
+	[searchField becomeFirstResponder];
 	
 	[completionBlock autorelease];
 	completionBlock = [theBlock copy];

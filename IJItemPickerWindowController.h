@@ -11,11 +11,13 @@
 
 @interface IJItemPickerWindowController : NSWindowController {
 	void(^completionBlock)(uint16_t itemId);
+	NSSearchField *searchField;
 	NSTableView *tableView;
 	NSArray *allItemIds;
 	NSArray *filteredItemIds;
 }
 @property (nonatomic, assign) IBOutlet NSTableView *tableView;
+@property (nonatomic, assign) IBOutlet NSSearchField *searchField;
 
 + (IJItemPickerWindowController *)sharedController;
 

@@ -69,6 +69,11 @@
 	inventoryList.children = newChildren;
 }
 
+- (NBTContainer *)worldTimeContainer
+{
+	return [[self childNamed:@"Data"] childNamed:@"Time"];
+}
+
 #pragma mark -
 #pragma mark Helpers
 

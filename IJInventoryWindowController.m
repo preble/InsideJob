@@ -14,7 +14,7 @@
 @implementation IJInventoryWindowController
 
 @synthesize outlineView;
-@synthesize worldPopup;
+@synthesize worldSelectionControl;
 @synthesize statusTextField;
 
 - (void)awakeFromNib
@@ -62,9 +62,13 @@
 		return;
 	}
 	
+	[self willChangeValueForKey:@"worldTime"];
+	
 	[level release];
 	level = [[IJMinecraftLevel nbtContainerWithData:fileData] retain];
 	inventory = [[level inventory] retain];
+	
+	[self didChangeValueForKey:@"worldTime"];
 	
 	// Add placeholder inventory items:
 	
@@ -157,13 +161,13 @@
 
 - (IBAction)worldSelectionChanged:(id)sender
 {
-	int worldIndex = [[worldPopup selectedItem] tag];
+	int worldIndex = [worldSelectionControl selectedSegment] + 1;
 	[self loadWorldAtIndex:worldIndex];
 }
 
 - (void)saveDocument:(id)sender
 {
-	int worldIndex = [[worldPopup selectedItem] tag];
+	int worldIndex = [worldSelectionControl selectedSegment] + 1;
 	[self saveToWorldAtIndex:worldIndex];
 }
 
@@ -184,6 +188,18 @@
 		return [outlineView selectedRow] != -1 && ![rootItems containsObject:[outlineView itemAtRow:[outlineView selectedRow]]];
 	}
 	return YES;
+}
+
+- (NSNumber *)worldTime
+{
+	return 	[level worldTimeContainer].numberValue;
+}
+- (void)setWorldTime:(NSNumber *)number
+{
+	[self willChangeValueForKey:@"worldTime"];
+	[level worldTimeContainer].numberValue = number;
+	[self didChangeValueForKey:@"worldTime"];
+	[self markDirty];
 }
 
 #pragma mark -

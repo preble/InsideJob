@@ -15,7 +15,7 @@
 	NSArray *inventory;
 	
 	NSOutlineView *outlineView;
-	NSPopUpButton *worldPopup;
+	NSSegmentedControl *worldSelectionControl;
 	NSTextField *statusTextField;
 	
 	NSArray *rootItems;
@@ -28,8 +28,10 @@
 }
 
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
-@property (nonatomic, assign) IBOutlet NSPopUpButton *worldPopup;
+@property (nonatomic, assign) IBOutlet NSSegmentedControl *worldSelectionControl;
 @property (nonatomic, assign) IBOutlet NSTextField *statusTextField;
+
+@property (nonatomic, retain) NSNumber *worldTime;
 
 - (IBAction)worldSelectionChanged:(id)sender;
 

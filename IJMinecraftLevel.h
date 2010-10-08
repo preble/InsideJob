@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic, copy) NSArray *inventory; // Array of IJInventoryItem objects.
+@property (nonatomic, readonly) NBTContainer *worldTimeContainer;
 
 + (NSString *)pathForWorldAtIndex:(int)worldIndex;
 + (NSString *)pathForLevelDatAtIndex:(int)worldIndex;
