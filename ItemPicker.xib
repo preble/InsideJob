@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="13"/>
+			<integer value="3"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,7 +39,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSWindowTemplate" id="416152146">
-				<int key="NSWindowStyleMask">27</int>
+				<int key="NSWindowStyleMask">283</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{577, 347}, {249, 286}}</string>
 				<int key="NSWTFlags">-1535637504</int>
@@ -175,7 +175,7 @@
 															<int key="NSColorSpace">3</int>
 															<bytes key="NSWhite">MC4zMzMzMzI5ODU2AA</bytes>
 														</object>
-														<object class="NSColor" key="NSTextColor" id="261073037">
+														<object class="NSColor" key="NSTextColor" id="875174255">
 															<int key="NSColorSpace">6</int>
 															<string key="NSCatalogName">System</string>
 															<string key="NSColorName">headerTextColor</string>
@@ -203,7 +203,7 @@
 													<bool key="NSIsResizeable">YES</bool>
 													<reference key="NSTableView" ref="69945491"/>
 												</object>
-												<object class="NSTableColumn" id="158143353">
+												<object class="NSTableColumn" id="808120077">
 													<string key="NSIdentifier">name</string>
 													<double key="NSWidth">191</double>
 													<double key="NSMinWidth">10</double>
@@ -219,9 +219,9 @@
 															<string key="NSColorName">headerColor</string>
 															<reference key="NSColor" ref="837009434"/>
 														</object>
-														<reference key="NSTextColor" ref="261073037"/>
+														<reference key="NSTextColor" ref="875174255"/>
 													</object>
-													<object class="NSTextFieldCell" key="NSDataCell" id="529701029">
+													<object class="NSTextFieldCell" key="NSDataCell" id="1045662122">
 														<int key="NSCellFlags">337772096</int>
 														<int key="NSCellFlags2">2048</int>
 														<string key="NSContents">Text Cell</string>
@@ -474,7 +474,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="457520173"/>
-							<reference ref="158143353"/>
+							<reference ref="808120077"/>
 						</object>
 						<reference key="parent" ref="1009868452"/>
 					</object>
@@ -494,17 +494,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
-						<reference key="object" ref="158143353"/>
+						<reference key="object" ref="808120077"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="529701029"/>
+							<reference ref="1045662122"/>
 						</object>
 						<reference key="parent" ref="69945491"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">27</int>
-						<reference key="object" ref="529701029"/>
-						<reference key="parent" ref="158143353"/>
+						<reference key="object" ref="1045662122"/>
+						<reference key="parent" ref="808120077"/>
 					</object>
 				</object>
 			</object>

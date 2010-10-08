@@ -96,7 +96,10 @@
 	return [[[self class] pathForWorldAtIndex:worldIndex] stringByAppendingPathComponent:@"session.lock"];
 }
 
-
++ (BOOL)worldExistsAtIndex:(int)worldIndex
+{
+	return [[NSFileManager defaultManager] fileExistsAtPath:[[self class] pathForLevelDatAtIndex:worldIndex]];
+}
 
 + (NSData *)dataWithInt64:(int64_t)v
 {
@@ -138,7 +141,7 @@
 	if (!data)
 	{
 		NSLog(@"Failed to read session lock at %@", path);
-		return;
+		return NO;
 	}
 	
 	int64_t milliseconds = [IJMinecraftLevel int64FromData:data];

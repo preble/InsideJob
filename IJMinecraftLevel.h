@@ -20,6 +20,8 @@
 + (NSString *)pathForLevelDatAtIndex:(int)worldIndex;
 + (NSString *)pathForSessionLockAtIndex:(int)worldIndex;
 
++ (BOOL)worldExistsAtIndex:(int)worldIndex;
+
 + (int64_t)writeToSessionLockAtIndex:(int)worldIndex;
 + (BOOL)checkSessionLockAtIndex:(int)worldIndex value:(int64_t)checkValue;
 

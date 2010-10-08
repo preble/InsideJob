@@ -43,6 +43,24 @@
 	[quickItem removeAllObjects];
 	[inventoryItem removeAllObjects];
 	
+	// Reload data here because we have just invalidated all of the items used in the outline view.
+	[outlineView reloadData];
+	
+	
+	[self willChangeValueForKey:@"worldTime"];
+	[level release];
+	level = nil;
+	[inventory release];
+	inventory = nil;
+	[self didChangeValueForKey:@"worldTime"];
+	
+	
+	if (![IJMinecraftLevel worldExistsAtIndex:worldIndex])
+	{
+		NSBeginCriticalAlertSheet(@"No world exists in that slot.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Please create a new single player world in this slot using Minecraft and try again.");
+		return;
+	}
+	
 	sessionLockValue = [IJMinecraftLevel writeToSessionLockAtIndex:worldIndex];
 	if (![IJMinecraftLevel checkSessionLockAtIndex:worldIndex value:sessionLockValue])
 	{
@@ -64,7 +82,6 @@
 	
 	[self willChangeValueForKey:@"worldTime"];
 	
-	[level release];
 	level = [[IJMinecraftLevel nbtContainerWithData:fileData] retain];
 	inventory = [[level inventory] retain];
 	
