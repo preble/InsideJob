@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol IJInventoryViewDelegate;
+@class IJInventoryItem;
 
 @interface IJInventoryView : NSView {
 	int rows;
@@ -16,9 +18,18 @@
 	NSEvent *mouseDownEvent;
 	
 	NSArray *items;
+	
+	id<IJInventoryViewDelegate> delegate;
 }
+@property (nonatomic, assign) id<IJInventoryViewDelegate> delegate;
 
 - (void)setRows:(int)numberOfRows columns:(int)numberOfColumns;
 - (void)setItems:(NSArray *)theItems;
 
+@end
+
+
+@protocol IJInventoryViewDelegate <NSObject>
+- (void)inventoryView:(IJInventoryView *)inventoryView removeItemAtIndex:(int)itemIndex;
+- (void)inventoryView:(IJInventoryView *)inventoryView setItem:(IJInventoryItem *)item atIndex:(int)itemIndex;
 @end

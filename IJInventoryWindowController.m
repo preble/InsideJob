@@ -31,6 +31,9 @@
 	[inventoryView setRows:3 columns:9];
 	[quickView setRows:1 columns:9];
 	[armorView setRows:4 columns:1];
+	inventoryView.delegate = self;
+	quickView.delegate = self;
+	armorView.delegate = self;
 }
 
 - (void)dealloc
@@ -232,150 +235,59 @@
 }
 
 #pragma mark -
-#pragma mark Inventory Outline View
+#pragma mark IJInventoryViewDelegate
 
-- (id)outlineView:(NSOutlineView *)theOutlineView child:(NSInteger)index ofItem:(id)item
+- (NSMutableArray *)itemArrayForInventoryView:(IJInventoryView *)theInventoryView slotOffset:(int*)slotOffset
 {
-	if (item == nil)
+	if (theInventoryView == inventoryView)
 	{
-		return [rootItems objectAtIndex:index];
+		*slotOffset = IJInventorySlotNormalFirst;
+		return inventoryItem;
 	}
-	else
+	else if (theInventoryView == quickView)
 	{
-		return [item objectAtIndex:index];
+		*slotOffset = IJInventorySlotQuickFirst;
+		return quickItem;
 	}
-
-}
-
-- (BOOL)outlineView:(NSOutlineView *)theOutlineView isItemExpandable:(id)item
-{
-	return item == nil || [rootItems containsObject:item];
-}
-
-- (NSInteger)outlineView:(NSOutlineView *)theOutlineView numberOfChildrenOfItem:(id)item
-{
-	if (item == nil)
+	else if (theInventoryView == armorView)
 	{
-		return 3;
+		*slotOffset = IJInventorySlotArmorFirst;
+		return armorItem;
 	}
-	else if ([rootItems containsObject:item])
-	{
-		return [(NSArray *)item count];
-	}
-	else
-	{
-		return 0;
-	}
-
-}
-
-- (id)outlineView:(NSOutlineView *)theOutlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
-{
-	if ([rootItems containsObject:item])
-	{
-		if ([tableColumn.identifier isEqual:@"slot"])
-		{
-			if (item == armorItem)
-				return @"Armor";
-			else if (item == quickItem)
-				return @"Quick Inventory";
-			else if (item == inventoryItem)
-				return @"Inventory";
-		}
-		else
-		{
-			return nil;
-		}
-	}
-	
-	IJInventoryItem *invItem = item;
-	
-	if ([tableColumn.identifier isEqual:@"slot"])
-	{
-		return [NSString stringWithFormat:@"%d", invItem.slot];
-	}
-	else if ([tableColumn.identifier isEqual:@"id"])
-	{
-		if (invItem.itemId)
-			return [NSNumber numberWithShort:invItem.itemId];
-		else
-			return nil;
-	}
-	else if ([tableColumn.identifier isEqual:@"item"])
-	{
-		if (invItem.itemId)
-			return invItem.itemName;
-		else
-			return @"";
-	}
-	else if ([tableColumn.identifier isEqual:@"count"])
-	{
-		if (invItem.count)
-			return [NSNumber numberWithUnsignedChar:invItem.count];
-		else
-			return nil;
-	}
-	else if ([tableColumn.identifier isEqual:@"damage"])
-	{
-		if (invItem.damage)
-			return [NSNumber numberWithShort:invItem.damage];
-		else
-			return nil;
-	}
-	
 	return nil;
 }
 
-- (void)outlineView:(NSOutlineView *)theOutlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+- (void)inventoryView:(IJInventoryView *)theInventoryView removeItemAtIndex:(int)itemIndex
 {
-	IJInventoryItem *invItem = item;
-	if ([tableColumn.identifier isEqual:@"id"])
+	int slotOffset = 0;
+	NSMutableArray *itemArray = [self itemArrayForInventoryView:theInventoryView slotOffset:&slotOffset];
+	
+	if (itemArray)
 	{
-		invItem.itemId = [object shortValue];
-		[self markDirty];
+		IJInventoryItem *item = [IJInventoryItem emptyItemWithSlot:slotOffset + itemIndex];
+		[itemArray replaceObjectAtIndex:itemIndex withObject:item];
+		[theInventoryView setItems:itemArray];
 	}
-	else if ([tableColumn.identifier isEqual:@"count"])
-	{
-		invItem.count = [object unsignedCharValue];
-		if (invItem.count > 64)
-			invItem.count = 64;
-		[self markDirty];
-	}
-	else if ([tableColumn.identifier isEqual:@"damage"])
-	{
-		invItem.damage = [object shortValue];
-		[self markDirty];
-	}
+	[self markDirty];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)theOutlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
+- (void)inventoryView:(IJInventoryView *)theInventoryView setItem:(IJInventoryItem *)item atIndex:(int)itemIndex
 {
-	if ([rootItems containsObject:item])
-		return NO;
-	else if ([tableColumn.identifier isEqual:@"item"])
+	int slotOffset = 0;
+	NSMutableArray *itemArray = [self itemArrayForInventoryView:theInventoryView slotOffset:&slotOffset];
+	
+	if (itemArray)
 	{
-		IJInventoryItem *invItem = item;
-		[[IJItemPickerWindowController sharedController] showPickerWithInitialItemId:invItem.itemId completionBlock:^(uint16_t itemId) {
-			invItem.itemId = itemId;
-			[outlineView reloadItem:item];
-			[self markDirty];
-		}];
-		return NO;
+		[itemArray replaceObjectAtIndex:itemIndex withObject:item];
+		item.slot = slotOffset + itemIndex;
+		[theInventoryView setItems:itemArray];
 	}
-	else
-	{
-		return [tableColumn.identifier isEqual:@"slot"] == NO;
-	}
+	[self markDirty];
 }
 
 #pragma mark -
-#pragma mark NSCollectionViewDelegate
+#pragma mark Item Picker
 
-- (BOOL)collectionView:(NSCollectionView *)collectionView writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard
-{
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-	[pasteboard declareTypes:[NSArray arrayWithObjects:@"net.adampreble.insidejob.item", nil] owner:self];
-	return YES;
-}
+
 
 @end

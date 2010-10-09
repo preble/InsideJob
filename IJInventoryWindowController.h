@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IJInventoryView.h"
 
 @class IJInventoryView;
 @class IJMinecraftLevel;
 
-@interface IJInventoryWindowController : NSWindowController <NSCollectionViewDelegate> {
+@interface IJInventoryWindowController : NSWindowController <NSCollectionViewDelegate, IJInventoryViewDelegate> {
 	IJMinecraftLevel *level;
 	NSArray *inventory;
 	

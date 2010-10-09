@@ -16,6 +16,8 @@ const static CGFloat cellOffset = 40;
 
 @implementation IJInventoryView
 
+@synthesize delegate;
+
 - (id)initWithFrame:(NSRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
@@ -82,6 +84,7 @@ const static CGFloat cellOffset = 40;
 
 - (void)setItems:(NSArray *)theItems
 {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 	[items autorelease];
 	[theItems retain];
 	items = theItems;
@@ -101,11 +104,6 @@ const static CGFloat cellOffset = 40;
 	point.y /= cellOffset;
 	int index = floor(point.y) * cols + floor(point.x); // flip y
 	return index;
-}
-
-- (IJInventoryItem *)itemAtPoint:(NSPoint)point
-{
-	return [items objectAtIndex:[self itemIndexForPoint:point]];
 }
 
 #pragma mark -
@@ -128,7 +126,8 @@ const static CGFloat cellOffset = 40;
 	
 	// Find the IJInventoryItem:
 	NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
-	IJInventoryItem *item = [self itemAtPoint:pointInView];
+	int itemIndex = [self itemIndexForPoint:pointInView];
+	IJInventoryItem *item = [items objectAtIndex:itemIndex];
 	if (item.itemId == 0)
 		return; // can't drag nothing
 	
@@ -141,9 +140,12 @@ const static CGFloat cellOffset = 40;
 	
 	NSImage *image = item.image;
 	
+	// Now clear out item:
+	[delegate inventoryView:self removeItemAtIndex:itemIndex];
+	
 	NSPoint dragPoint = NSMakePoint(pointInView.x - image.size.width*0.5, pointInView.y - image.size.height*0.5);
 	
-	[self dragImage:item.image
+	[self dragImage:image
 				 at:dragPoint
 			 offset:NSZeroSize
 			  event:mouseDownEvent
@@ -164,6 +166,11 @@ const static CGFloat cellOffset = 40;
 - (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
 	NSLog(@"%s operation=%d", __PRETTY_FUNCTION__, operation);
+	
+	if (operation == NSDragOperationMove)
+	{
+		// 
+	}
 }
 //- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint
 //{
@@ -218,6 +225,14 @@ const static CGFloat cellOffset = 40;
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
+	NSLog(@"%s operation=%d", __PRETTY_FUNCTION__, sender.draggingSourceOperationMask);
+	
+	int index = [self itemIndexForPoint:[self convertPoint:[sender draggingLocation] fromView:nil]];
+	
+	NSData *itemData = [[sender draggingPasteboard] dataForType:IJPasteboardTypeInventoryItem];
+	IJInventoryItem *item = [NSKeyedUnarchiver unarchiveObjectWithData:itemData];
+	
+	[delegate inventoryView:self setItem:item atIndex:index];
 	return YES;
 }
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
