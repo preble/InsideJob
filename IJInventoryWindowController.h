@@ -30,6 +30,8 @@
 	// Search/Item List
 	NSSearchField *itemSearchField;
 	NSTableView *itemTableView;
+	NSArray *allItemIds;
+	NSArray *filteredItemIds;
 	
 	// Document
 	BOOL dirty;
@@ -41,9 +43,12 @@
 @property (nonatomic, assign) IBOutlet IJInventoryView *inventoryView;
 @property (nonatomic, assign) IBOutlet IJInventoryView *quickView;
 @property (nonatomic, assign) IBOutlet IJInventoryView *armorView;
+@property (nonatomic, assign) IBOutlet NSSearchField *itemSearchField;
+@property (nonatomic, assign) IBOutlet NSTableView *itemTableView;
 
 @property (nonatomic, retain) NSNumber *worldTime;
 
 - (IBAction)worldSelectionChanged:(id)sender;
+- (IBAction)updateItemSearchFilter:(id)sender;
 
 @end

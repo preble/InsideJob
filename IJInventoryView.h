@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString * const IJPasteboardTypeInventoryItem;
+
 @protocol IJInventoryViewDelegate;
 @class IJInventoryItem;
 

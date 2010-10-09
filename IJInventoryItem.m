@@ -50,7 +50,7 @@
 		return [NSString stringWithFormat:@"%d", self.itemId];
 }
 
-- (NSImage *)image
++ (NSImage *)imageForItemId:(uint16_t)itemId
 {
 	NSSize itemImageSize = NSMakeSize(32, 32);
 	NSPoint atlasOffset;
@@ -60,29 +60,29 @@
 	
 	int index;
 	
-	if (self.itemId <= 85)
+	if (itemId <= 85)
 	{
-		if (self.itemId <= 20)
-			index = self.itemId - 1; // first item is 1
-		else if (self.itemId == 35)
-			index = self.itemId - (35 - 20);
-		else if (self.itemId >= 37)
-			index = self.itemId - (37 - 21);
+		if (itemId <= 20)
+			index = itemId - 1; // first item is 1
+		else if (itemId == 35)
+			index = itemId - (35 - 20);
+		else if (itemId >= 37)
+			index = itemId - (37 - 21);
 		atlasOffset = NSMakePoint(36, 75);
 	}
-	else if (self.itemId >= 256 && self.itemId <= 346)
+	else if (itemId >= 256 && itemId <= 346)
 	{
-		index = self.itemId - 256;
+		index = itemId - 256;
 		atlasOffset = NSMakePoint(445, 23+52);
 	}
-	else if (self.itemId >= 2556 && self.itemId <= 2557)
+	else if (itemId >= 2556 && itemId <= 2557)
 	{
-		index = self.itemId - 2556;
+		index = itemId - 2556;
 		atlasOffset = NSMakePoint(445+pixelsPerColumn, 23+52);
 	}
 	else
 	{
-		NSLog(@"%s error: unrecognized item id %d", __PRETTY_FUNCTION__, self.itemId);
+		NSLog(@"%s error: unrecognized item id %d", __PRETTY_FUNCTION__, itemId);
 		return nil;
 	}
 
@@ -111,6 +111,11 @@
 	[NSGraphicsContext restoreGraphicsState];
 	
 	return output;
+}
+
+- (NSImage *)image
+{
+	return [IJInventoryItem imageForItemId:itemId];
 }
 
 + (NSDictionary *)itemIdLookup

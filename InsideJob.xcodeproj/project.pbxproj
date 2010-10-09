@@ -20,6 +20,7 @@
 		668B297C125E5DF00060BF71 /* ItemPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 668B297B125E5DF00060BF71 /* ItemPicker.xib */; };
 		66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC00021260215C005A23F4 /* IJInventoryView.m */; };
 		66BC000E12602359005A23F4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66BC000D12602359005A23F4 /* QuartzCore.framework */; };
+		66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */; };
 		66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC2A125E9A51005A23F4 /* Credits.rtf */; };
 		66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC35125EA53E005A23F4 /* InsideJob.icns */; };
 		66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */; };
@@ -57,6 +58,8 @@
 		66BC00011260215C005A23F4 /* IJInventoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryView.h; sourceTree = "<group>"; };
 		66BC00021260215C005A23F4 /* IJInventoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryView.m; sourceTree = "<group>"; };
 		66BC000D12602359005A23F4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		66BC03391260CC59005A23F4 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAttachedWindow.h; sourceTree = "<group>"; };
+		66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		66BCFC2A125E9A51005A23F4 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		66BCFC35125EA53E005A23F4 /* InsideJob.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = InsideJob.icns; sourceTree = "<group>"; };
 		66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DataValuesV110Transparent.png; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 				256AC3D90F4B6AC300CF3369 /* InsideJobAppDelegate.m */,
 				668B27F3125D96470060BF71 /* Interface */,
 				668B2551125D59BF0060BF71 /* Model */,
+				66BC033E1260CC68005A23F4 /* Views & Windows */,
 				668B2559125D5BB90060BF71 /* Categories */,
 			);
 			name = Classes;
@@ -198,6 +202,15 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
+		66BC033E1260CC68005A23F4 /* Views & Windows */ = {
+			isa = PBXGroup;
+			children = (
+				66BC03391260CC59005A23F4 /* MAAttachedWindow.h */,
+				66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */,
+			);
+			name = "Views & Windows";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -277,6 +290,7 @@
 				668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */,
 				668B2979125E5DD40060BF71 /* IJItemPickerWindowController.m in Sources */,
 				66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */,
+				66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

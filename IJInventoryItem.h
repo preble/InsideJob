@@ -35,4 +35,6 @@
 
 + (NSDictionary *)itemIdLookup;
 
++ (NSImage *)imageForItemId:(uint16_t)itemId;
+
 @end

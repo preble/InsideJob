@@ -17,6 +17,7 @@
 @synthesize worldSelectionControl;
 @synthesize statusTextField;
 @synthesize inventoryView, armorView, quickView;
+@synthesize itemSearchField, itemTableView;
 
 
 - (void)awakeFromNib
@@ -32,6 +33,12 @@
 	inventoryView.delegate = self;
 	quickView.delegate = self;
 	armorView.delegate = self;
+
+	// Item Table View setup
+	NSArray *keys = [[IJInventoryItem itemIdLookup] allKeys];
+	keys = [keys sortedArrayUsingSelector:@selector(compare:)];
+	allItemIds = [[NSArray alloc] initWithArray:keys];
+	filteredItemIds = [allItemIds retain];
 }
 
 - (void)dealloc
@@ -276,6 +283,78 @@
 
 #pragma mark -
 #pragma mark Item Picker
+
+
+- (IBAction)updateItemSearchFilter:(id)sender
+{
+	NSString *filterString = [sender stringValue];
+	
+	if (filterString.length == 0)
+	{
+		[filteredItemIds autorelease];
+		filteredItemIds = [allItemIds retain];
+		[itemTableView reloadData];
+		return;
+	}
+	
+	NSMutableArray *results = [NSMutableArray array];
+	
+	for (NSNumber *itemId in allItemIds)
+	{
+		NSString *name = [[IJInventoryItem itemIdLookup] objectForKey:itemId];
+		NSRange range = [name rangeOfString:filterString options:NSCaseInsensitiveSearch];
+		if (range.location != NSNotFound)
+			[results addObject:itemId];
+	}
+	
+	[filteredItemIds autorelease];
+	filteredItemIds = [results retain];
+	[itemTableView reloadData];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)theTableView
+{
+	return filteredItemIds.count;
+}
+- (id)tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	// TODO: Change this, because the row will not correspond once we support sorting.
+	NSNumber *itemId = [filteredItemIds objectAtIndex:row];
+	
+	if ([tableColumn.identifier isEqual:@"itemId"])
+	{
+		return itemId;
+	}
+	else if ([tableColumn.identifier isEqual:@"image"])
+	{
+		return [IJInventoryItem imageForItemId:[itemId shortValue]];
+	}
+	else
+	{
+		NSString *name = [[IJInventoryItem itemIdLookup] objectForKey:itemId];
+		return name;
+	}
+}
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
+	[pboard declareTypes:[NSArray arrayWithObjects:IJPasteboardTypeInventoryItem, nil] owner:nil];
+	
+	NSNumber *itemId = [filteredItemIds objectAtIndex:[rowIndexes firstIndex]];
+	
+	IJInventoryItem *item = [[IJInventoryItem alloc] init];
+	item.itemId = [itemId shortValue];
+	item.count = 1;
+	item.damage = 0;
+	item.slot = 0;
+	
+	[pboard setData:[NSKeyedArchiver archivedDataWithRootObject:item]
+			forType:IJPasteboardTypeInventoryItem];
+	
+	[item release];
+
+	return YES;
+}
+
 
 
 
