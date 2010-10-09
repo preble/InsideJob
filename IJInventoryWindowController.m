@@ -131,6 +131,9 @@
 		}
 	}
 	
+	NSLog(@"normal: %@", normalInventory);
+	NSLog(@"quick: %@", quickInventory);
+	
 	[inventoryView setItems:normalInventory];
 	[quickView setItems:quickInventory];
 	[armorView setItems:armorInventory];

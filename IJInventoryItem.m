@@ -40,6 +40,11 @@
 	[coder encodeInt:count forKey:@"count"];
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@ %p itemId=%d name=%@ count=%d slot=%d damage=%d",
+			NSStringFromClass([self class]), self, itemId, self.itemName, count, slot, damage];
+}
 
 - (NSString *)itemName
 {

@@ -25,6 +25,7 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 	
 	IJItemPropertiesViewController *propertiesViewController;
 	MAAttachedWindow *propertiesWindow;
+	id observerObject;
 	
 	id<IJInventoryViewDelegate> delegate;
 	

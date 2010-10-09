@@ -13,11 +13,11 @@
 
 @synthesize item;
 
-- (NSSet *)keyPathsForValuesAffectingCountNumber
++ (NSSet *)keyPathsForValuesAffectingCountNumber
 {
 	return [NSSet setWithObject:@"item"];
 }
-- (NSSet *)keyPathsForValuesAffectingDamageNumber
++ (NSSet *)keyPathsForValuesAffectingDamageNumber
 {
 	return [NSSet setWithObject:@"item"];
 }

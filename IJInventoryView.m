@@ -48,10 +48,17 @@ const static CGFloat cellOffset = 40;
 }
 - (void)removePropertiesWindow
 {
-	[self.window removeChildWindow:propertiesWindow];
-	[propertiesWindow orderOut:nil];
-	[propertiesWindow release];
-	propertiesWindow = nil;
+	if (observerObject)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
+		observerObject = nil;
+		
+		[self.window removeChildWindow:propertiesWindow];
+		[propertiesWindow orderOut:nil];
+		//[propertiesWindow release];
+		propertiesWindow = nil;
+		propertiesViewController.item = nil;
+	}
 }
 - (BOOL)resignFirstResponder
 {
@@ -129,6 +136,17 @@ const static CGFloat cellOffset = 40;
 #pragma mark -
 #pragma mark Drag & Drop: Source
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
+{
+//	NSLog(@"%s", __PRETTY_FUNCTION__);
+//	if (propertiesWindow) // take the first mouse while the properties window is up.
+//		return YES;
+//	else
+//		return NO;
+	// the above doesn't work since the window has already been dismissed by the time we get here
+	return YES;
+}
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	[theEvent retain];
@@ -179,9 +197,11 @@ const static CGFloat cellOffset = 40;
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 	if (!dragging)
 	{
 		// Show the properties window for this item.
+		IJInventoryItem *lastItem = propertiesViewController.item;
 		
 		[self removePropertiesWindow];
 		
@@ -190,7 +210,7 @@ const static CGFloat cellOffset = 40;
 		
 		int itemIndex = [self itemIndexForPoint:pointInView];
 		IJInventoryItem *item = [items objectAtIndex:itemIndex];
-		if (item.itemId == 0)
+		if (item.itemId == 0 || lastItem == item)
 			return; // can't show info on nothing
 		
 		if (!propertiesViewController)
@@ -203,10 +223,19 @@ const static CGFloat cellOffset = 40;
 														 inWindow:self.window
 														   onSide:MAPositionRight
 													   atDistance:0];
+		[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
 		[propertiesWindow setViewMargin:10.0];
-		[propertiesWindow setAlphaValue:0.0];
-		[[propertiesWindow animator] setAlphaValue:1.0];
+		[propertiesWindow setAlphaValue:1.0];
+		//[[propertiesWindow animator] setAlphaValue:1.0];
 		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
+		[propertiesWindow makeKeyAndOrderFront:nil];
+		
+		observerObject = [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification
+																		   object:propertiesWindow
+																			queue:[NSOperationQueue mainQueue]
+																	   usingBlock:^(NSNotification *notification) {
+																		   [self removePropertiesWindow];
+													  }];
 	}
 }
 
