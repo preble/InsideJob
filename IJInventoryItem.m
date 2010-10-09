@@ -20,6 +20,27 @@
 	return obj;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	if ((self = [super init]))
+	{
+		itemId = [decoder decodeIntForKey:@"itemId"];
+		slot = [decoder decodeIntForKey:@"slot"];
+		damage = [decoder decodeIntForKey:@"damage"];
+		count = [decoder decodeIntForKey:@"count"];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+	[coder encodeInt:itemId forKey:@"itemId"];
+	[coder encodeInt:slot forKey:@"slot"];
+	[coder encodeInt:damage forKey:@"damage"];
+	[coder encodeInt:count forKey:@"count"];
+}
+
+
 - (NSString *)itemName
 {
 	NSString *name = [[IJInventoryItem itemIdLookup] objectForKey:[NSNumber numberWithShort:self.itemId]];

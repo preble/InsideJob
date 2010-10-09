@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="29"/>
 			<integer value="372"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1128,26 +1128,26 @@
 								<int key="NSSegmentStyle">2</int>
 							</object>
 						</object>
-						<object class="NSCustomView" id="427079584">
+						<object class="NSCustomView" id="977606027">
 							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">278</int>
-							<string key="NSFrame">{{77, 295}, {432, 144}}</string>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{78, 309}, {432, 144}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<string key="NSClassName">NSView</string>
+							<string key="NSClassName">IJInventoryView</string>
 						</object>
-						<object class="NSCustomView" id="637735386">
+						<object class="NSCustomView" id="991633424">
 							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">278</int>
-							<string key="NSFrame">{{77, 239}, {432, 48}}</string>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{78, 242}, {432, 48}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<string key="NSClassName">NSView</string>
+							<string key="NSClassName">IJInventoryView</string>
 						</object>
-						<object class="NSCustomView" id="649603357">
+						<object class="NSCustomView" id="643984135">
 							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">278</int>
-							<string key="NSFrame">{{11, 247}, {48, 192}}</string>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{11, 261}, {48, 192}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<string key="NSClassName">NSView</string>
+							<string key="NSClassName">IJInventoryView</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{551, 537}</string>
@@ -1467,27 +1467,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">inventoryMatrixContainer</string>
+						<string key="label">inventoryView</string>
 						<reference key="source" ref="760161335"/>
-						<reference key="destination" ref="427079584"/>
+						<reference key="destination" ref="977606027"/>
 					</object>
-					<int key="connectionID">614</int>
+					<int key="connectionID">642</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">quickMatrixContainer</string>
+						<string key="label">armorView</string>
 						<reference key="source" ref="760161335"/>
-						<reference key="destination" ref="637735386"/>
+						<reference key="destination" ref="643984135"/>
 					</object>
-					<int key="connectionID">616</int>
+					<int key="connectionID">645</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">armorMatrixContainer</string>
+						<string key="label">quickView</string>
 						<reference key="source" ref="760161335"/>
-						<reference key="destination" ref="649603357"/>
+						<reference key="destination" ref="991633424"/>
 					</object>
-					<int key="connectionID">618</int>
+					<int key="connectionID">646</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1861,9 +1861,9 @@
 							<reference ref="395301483"/>
 							<reference ref="574149520"/>
 							<reference ref="626341130"/>
-							<reference ref="427079584"/>
-							<reference ref="649603357"/>
-							<reference ref="637735386"/>
+							<reference ref="643984135"/>
+							<reference ref="977606027"/>
+							<reference ref="991633424"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -2113,22 +2113,22 @@
 						<reference key="parent" ref="626341130"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">612</int>
-						<reference key="object" ref="427079584"/>
+						<int key="objectID">641</int>
+						<reference key="object" ref="977606027"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="parent" ref="439893737"/>
-						<string key="objectName">Matrix Placeholder</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">615</int>
-						<reference key="object" ref="637735386"/>
+						<int key="objectID">643</int>
+						<reference key="object" ref="991633424"/>
 						<reference key="parent" ref="439893737"/>
-						<string key="objectName">Matrix Placeholder</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">617</int>
-						<reference key="object" ref="649603357"/>
+						<int key="objectID">644</int>
+						<reference key="object" ref="643984135"/>
 						<reference key="parent" ref="439893737"/>
-						<string key="objectName">Matrix Placeholder</string>
 					</object>
 				</object>
 			</object>
@@ -2274,12 +2274,12 @@
 					<string>600.IBViewBoundsToFrameTransform</string>
 					<string>601.IBPluginDependency</string>
 					<string>601.IBSegmentedControlInspectorSelectedSegmentMetadataKey</string>
-					<string>612.IBPluginDependency</string>
-					<string>612.IBViewBoundsToFrameTransform</string>
-					<string>615.IBPluginDependency</string>
-					<string>615.IBViewBoundsToFrameTransform</string>
-					<string>617.IBPluginDependency</string>
-					<string>617.IBViewBoundsToFrameTransform</string>
+					<string>641.IBPluginDependency</string>
+					<string>641.IBViewBoundsToFrameTransform</string>
+					<string>643.IBPluginDependency</string>
+					<string>643.IBViewBoundsToFrameTransform</string>
+					<string>644.IBPluginDependency</string>
+					<string>644.IBViewBoundsToFrameTransform</string>
 					<string>74.IBPluginDependency</string>
 					<string>74.ImportedFromIB2</string>
 					<string>75.IBPluginDependency</string>
@@ -2454,15 +2454,15 @@
 					<integer value="0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AUGgAABDcAAAA</bytes>
+						<bytes key="NSTransformStruct">AUJsAABDmoAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AUKaAABDcAAAA</bytes>
+						<bytes key="NSTransformStruct">AUJsAABDcgAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AUGgAABDcAAAA</bytes>
+						<bytes key="NSTransformStruct">AUIQAABDSgAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -2498,11 +2498,19 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">618</int>
+			<int key="maxID">646</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">IJInventoryView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">IJInventoryView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">IJInventoryWindowController</string>
 					<string key="superclassName">NSWindowController</string>
@@ -2521,19 +2529,19 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>armorMatrixContainer</string>
-							<string>inventoryMatrixContainer</string>
+							<string>armorView</string>
+							<string>inventoryView</string>
 							<string>outlineView</string>
-							<string>quickMatrixContainer</string>
+							<string>quickView</string>
 							<string>statusTextField</string>
 							<string>worldSelectionControl</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSView</string>
-							<string>NSView</string>
+							<string>IJInventoryView</string>
+							<string>IJInventoryView</string>
 							<string>NSOutlineView</string>
-							<string>NSView</string>
+							<string>IJInventoryView</string>
 							<string>NSTextField</string>
 							<string>NSSegmentedControl</string>
 						</object>
@@ -2542,30 +2550,30 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>armorMatrixContainer</string>
-							<string>inventoryMatrixContainer</string>
+							<string>armorView</string>
+							<string>inventoryView</string>
 							<string>outlineView</string>
-							<string>quickMatrixContainer</string>
+							<string>quickView</string>
 							<string>statusTextField</string>
 							<string>worldSelectionControl</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">armorMatrixContainer</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="name">armorView</string>
+								<string key="candidateClassName">IJInventoryView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">inventoryMatrixContainer</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="name">inventoryView</string>
+								<string key="candidateClassName">IJInventoryView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">outlineView</string>
 								<string key="candidateClassName">NSOutlineView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">quickMatrixContainer</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="name">quickView</string>
+								<string key="candidateClassName">IJInventoryView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">statusTextField</string>
@@ -3057,6 +3065,27 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Foundation.framework/Headers/NSURLDownload.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">QuartzCore.framework/Headers/CAAnimation.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">QuartzCore.framework/Headers/CALayer.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">QuartzCore.framework/Headers/CIImageProvider.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

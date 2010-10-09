@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class IJItemMatrix;
+@class IJInventoryView;
 @class IJMinecraftLevel;
 
-@interface IJInventoryWindowController : NSWindowController {
+@interface IJInventoryWindowController : NSWindowController <NSCollectionViewDelegate> {
 	IJMinecraftLevel *level;
 	NSArray *inventory;
 	
@@ -19,14 +19,9 @@
 	NSSegmentedControl *worldSelectionControl;
 	NSTextField *statusTextField;
 	
-	NSView *inventoryMatrixContainer;
-	IJItemMatrix *inventoryMatrix;
-	
-	NSView *quickMatrixContainer;
-	IJItemMatrix *quickMatrix;
-	
-	NSView *armorMatrixContainer;
-	IJItemMatrix *armorMatrix;
+	IJInventoryView *inventoryView;
+	IJInventoryView *quickView;
+	IJInventoryView *armorView;
 	
 	NSArray *rootItems;
 	NSMutableArray *armorItem;
@@ -40,9 +35,9 @@
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic, assign) IBOutlet NSSegmentedControl *worldSelectionControl;
 @property (nonatomic, assign) IBOutlet NSTextField *statusTextField;
-@property (nonatomic, assign) IBOutlet NSView *inventoryMatrixContainer;
-@property (nonatomic, assign) IBOutlet NSView *quickMatrixContainer;
-@property (nonatomic, assign) IBOutlet NSView *armorMatrixContainer;
+@property (nonatomic, assign) IBOutlet IJInventoryView *inventoryView;
+@property (nonatomic, assign) IBOutlet IJInventoryView *quickView;
+@property (nonatomic, assign) IBOutlet IJInventoryView *armorView;
 
 @property (nonatomic, retain) NSNumber *worldTime;
 

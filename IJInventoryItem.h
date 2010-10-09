@@ -17,7 +17,7 @@
 #define IJInventorySlotArmorFirst (100) // feet
 
 
-@interface IJInventoryItem : NSObject {
+@interface IJInventoryItem : NSObject <NSCoding> {
 	uint16_t itemId;
 	uint16_t damage;
 	uint8_t count;
