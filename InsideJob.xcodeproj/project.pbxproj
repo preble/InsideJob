@@ -20,6 +20,7 @@
 		668B297C125E5DF00060BF71 /* ItemPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 668B297B125E5DF00060BF71 /* ItemPicker.xib */; };
 		66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC2A125E9A51005A23F4 /* Credits.rtf */; };
 		66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC35125EA53E005A23F4 /* InsideJob.icns */; };
+		66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -53,6 +54,7 @@
 		668B297B125E5DF00060BF71 /* ItemPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPicker.xib; sourceTree = "<group>"; };
 		66BCFC2A125E9A51005A23F4 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		66BCFC35125EA53E005A23F4 /* InsideJob.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = InsideJob.icns; sourceTree = "<group>"; };
+		66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DataValuesV110Transparent.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InsideJob-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InsideJob-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Inside Job.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inside Job.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -133,6 +135,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */,
 				66BCFC35125EA53E005A23F4 /* InsideJob.icns */,
 				8D1107310486CEB800E47090 /* InsideJob-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -245,6 +248,7 @@
 				668B297C125E5DF00060BF71 /* ItemPicker.xib in Resources */,
 				66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */,
 				66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */,
+				66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

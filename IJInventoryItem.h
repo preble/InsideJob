@@ -29,6 +29,7 @@
 @property (nonatomic, assign) uint8_t slot;
 
 @property (nonatomic, readonly) NSString *itemName;
+@property (nonatomic, readonly) NSImage *image;
 
 + (id)emptyItemWithSlot:(uint8_t)slot;
 
