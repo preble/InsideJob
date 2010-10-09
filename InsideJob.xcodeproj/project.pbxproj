@@ -21,6 +21,8 @@
 		66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC00021260215C005A23F4 /* IJInventoryView.m */; };
 		66BC000E12602359005A23F4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66BC000D12602359005A23F4 /* QuartzCore.framework */; };
 		66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */; };
+		66BC03621260D095005A23F4 /* IJItemPropertiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC03611260D095005A23F4 /* IJItemPropertiesViewController.m */; };
+		66BC03641260D0B3005A23F4 /* ItemPropertiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66BC03631260D0B3005A23F4 /* ItemPropertiesView.xib */; };
 		66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC2A125E9A51005A23F4 /* Credits.rtf */; };
 		66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC35125EA53E005A23F4 /* InsideJob.icns */; };
 		66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */; };
@@ -60,6 +62,9 @@
 		66BC000D12602359005A23F4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66BC03391260CC59005A23F4 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAttachedWindow.h; sourceTree = "<group>"; };
 		66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
+		66BC03601260D095005A23F4 /* IJItemPropertiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJItemPropertiesViewController.h; sourceTree = "<group>"; };
+		66BC03611260D095005A23F4 /* IJItemPropertiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJItemPropertiesViewController.m; sourceTree = "<group>"; };
+		66BC03631260D0B3005A23F4 /* ItemPropertiesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPropertiesView.xib; sourceTree = "<group>"; };
 		66BCFC2A125E9A51005A23F4 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		66BCFC35125EA53E005A23F4 /* InsideJob.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = InsideJob.icns; sourceTree = "<group>"; };
 		66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DataValuesV110Transparent.png; sourceTree = "<group>"; };
@@ -154,6 +159,7 @@
 				668B297B125E5DF00060BF71 /* ItemPicker.xib */,
 				668B28D8125E370A0060BF71 /* Items.csv */,
 				66BCFC2A125E9A51005A23F4 /* Credits.rtf */,
+				66BC03631260D0B3005A23F4 /* ItemPropertiesView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -198,6 +204,8 @@
 				668B2978125E5DD40060BF71 /* IJItemPickerWindowController.m */,
 				66BC00011260215C005A23F4 /* IJInventoryView.h */,
 				66BC00021260215C005A23F4 /* IJInventoryView.m */,
+				66BC03601260D095005A23F4 /* IJItemPropertiesViewController.h */,
+				66BC03611260D095005A23F4 /* IJItemPropertiesViewController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -271,6 +279,7 @@
 				66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */,
 				66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */,
 				66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */,
+				66BC03641260D0B3005A23F4 /* ItemPropertiesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +300,7 @@
 				668B2979125E5DD40060BF71 /* IJItemPickerWindowController.m in Sources */,
 				66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */,
 				66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */,
+				66BC03621260D095005A23F4 /* IJItemPropertiesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

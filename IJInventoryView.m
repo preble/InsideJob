@@ -8,6 +8,8 @@
 
 #import "IJInventoryView.h"
 #import "IJInventoryItem.h"
+#import "IJItemPropertiesViewController.h"
+#import "MAAttachedWindow.h"
 
 NSString * const IJPasteboardTypeInventoryItem = @"net.adampreble.insidejob.inventoryitem";
 
@@ -32,11 +34,29 @@ const static CGFloat cellOffset = 40;
 {
 	[items release];
 	[mouseDownEvent release];
+	[propertiesViewController release];
 	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
+}
+
+- (BOOL)acceptsFirstResponder
+{
+	return YES;
+}
+- (void)removePropertiesWindow
+{
+	[self.window removeChildWindow:propertiesWindow];
+	[propertiesWindow orderOut:nil];
+	[propertiesWindow release];
+	propertiesWindow = nil;
+}
+- (BOOL)resignFirstResponder
+{
+	[self removePropertiesWindow];
+	return YES;
 }
 
 - (void)setRows:(int)numberOfRows columns:(int)numberOfColumns
@@ -114,6 +134,7 @@ const static CGFloat cellOffset = 40;
 	[theEvent retain];
 	[mouseDownEvent release];
 	mouseDownEvent = theEvent;
+	dragging = NO;
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
@@ -123,6 +144,8 @@ const static CGFloat cellOffset = 40;
 	float dragDistance = hypot(mouseDownPoint.x - mouseDragPoint.x, mouseDownPoint.y - mouseDragPoint.y);
 	if (dragDistance < 3)
 		return;
+	
+	dragging = YES;
 	
 	// Find the IJInventoryItem:
 	NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
@@ -154,6 +177,38 @@ const static CGFloat cellOffset = 40;
 		  slideBack:YES];
 }
 
+- (void)mouseUp:(NSEvent *)theEvent
+{
+	if (!dragging)
+	{
+		// Show the properties window for this item.
+		
+		[self removePropertiesWindow];
+		
+		NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];
+		NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
+		
+		int itemIndex = [self itemIndexForPoint:pointInView];
+		IJInventoryItem *item = [items objectAtIndex:itemIndex];
+		if (item.itemId == 0)
+			return; // can't show info on nothing
+		
+		if (!propertiesViewController)
+		{
+			propertiesViewController = [[IJItemPropertiesViewController alloc] initWithNibName:@"ItemPropertiesView" bundle:nil];
+		}
+		propertiesViewController.item = item;
+		propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
+												  attachedToPoint:mouseDownPoint
+														 inWindow:self.window
+														   onSide:MAPositionRight
+													   atDistance:0];
+		[propertiesWindow setViewMargin:10.0];
+		[propertiesWindow setAlphaValue:0.0];
+		[[propertiesWindow animator] setAlphaValue:1.0];
+		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
+	}
+}
 
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {

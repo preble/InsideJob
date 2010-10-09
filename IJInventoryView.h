@@ -12,6 +12,8 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 
 @protocol IJInventoryViewDelegate;
 @class IJInventoryItem;
+@class IJItemPropertiesViewController;
+@class MAAttachedWindow;
 
 @interface IJInventoryView : NSView {
 	int rows;
@@ -21,7 +23,12 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 	
 	NSArray *items;
 	
+	IJItemPropertiesViewController *propertiesViewController;
+	MAAttachedWindow *propertiesWindow;
+	
 	id<IJInventoryViewDelegate> delegate;
+	
+	BOOL dragging;
 }
 @property (nonatomic, assign) id<IJInventoryViewDelegate> delegate;
 
