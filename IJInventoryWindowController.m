@@ -14,7 +14,6 @@
 
 @implementation IJInventoryWindowController
 
-@synthesize outlineView;
 @synthesize worldSelectionControl;
 @synthesize statusTextField;
 @synthesize inventoryView, armorView, quickView;
@@ -22,10 +21,9 @@
 
 - (void)awakeFromNib
 {
-	armorItem = [NSMutableArray array];
-	quickItem = [NSMutableArray array];
-	inventoryItem = [NSMutableArray array];
-	rootItems = [[NSArray alloc] initWithObjects:armorItem, quickItem, inventoryItem, nil];
+	armorInventory = [[NSMutableArray alloc] init];
+	quickInventory = [[NSMutableArray alloc] init];
+	normalInventory = [[NSMutableArray alloc] init];
 	statusTextField.stringValue = @"";
 	
 	[inventoryView setRows:3 columns:9];
@@ -38,8 +36,10 @@
 
 - (void)dealloc
 {
+	[armorInventory release];
+	[quickInventory release];
+	[normalInventory release];
 	[inventory release];
-	[rootItems release];
 	[level release];
 	[super dealloc];
 }
@@ -50,12 +50,9 @@
 
 - (void)loadWorldAtIndex:(int)worldIndex
 {
-	[armorItem removeAllObjects];
-	[quickItem removeAllObjects];
-	[inventoryItem removeAllObjects];
-	
-	// Reload data here because we have just invalidated all of the items used in the outline view.
-	[outlineView reloadData];
+	[armorInventory removeAllObjects];
+	[quickInventory removeAllObjects];
+	[normalInventory removeAllObjects];
 	
 	
 	[self willChangeValueForKey:@"worldTime"];
@@ -86,7 +83,6 @@
 	if (!fileData)
 	{
 		// Error loading 
-		[outlineView reloadData];
 		NSBeginCriticalAlertSheet(@"Error loading world.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"InsideJob was unable to load the level at %@.", levelPath);
 		return;
 	}
@@ -101,13 +97,13 @@
 	// Add placeholder inventory items:
 	
 	for (int i = 0; i < IJInventorySlotQuickLast + 1 - IJInventorySlotQuickFirst; i++)
-		[quickItem addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotQuickFirst + i]];
+		[quickInventory addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotQuickFirst + i]];
 	
 	for (int i = 0; i < IJInventorySlotNormalLast + 1 - IJInventorySlotNormalFirst; i++)
-		[inventoryItem addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotNormalFirst + i]];
+		[normalInventory addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotNormalFirst + i]];
 	
 	for (int i = 0; i < IJInventorySlotArmorLast + 1 - IJInventorySlotArmorFirst; i++)
-		[armorItem addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotArmorFirst + i]];
+		[armorInventory addObject:[IJInventoryItem emptyItemWithSlot:IJInventorySlotArmorFirst + i]];
 	
 	
 	// Overwrite the placeholders with actual inventory:
@@ -116,24 +112,21 @@
 	{
 		if (IJInventorySlotQuickFirst <= item.slot && item.slot <= IJInventorySlotQuickLast)
 		{
-			[quickItem replaceObjectAtIndex:item.slot - IJInventorySlotQuickFirst withObject:item];
+			[quickInventory replaceObjectAtIndex:item.slot - IJInventorySlotQuickFirst withObject:item];
 		}
 		else if (IJInventorySlotNormalFirst <= item.slot && item.slot <= IJInventorySlotNormalLast)
 		{
-			[inventoryItem replaceObjectAtIndex:item.slot - IJInventorySlotNormalFirst withObject:item];
+			[normalInventory replaceObjectAtIndex:item.slot - IJInventorySlotNormalFirst withObject:item];
 		}
 		else if (IJInventorySlotArmorFirst <= item.slot && item.slot <= IJInventorySlotArmorLast)
 		{
-			[armorItem replaceObjectAtIndex:item.slot - IJInventorySlotArmorFirst withObject:item];
+			[armorInventory replaceObjectAtIndex:item.slot - IJInventorySlotArmorFirst withObject:item];
 		}
 	}
 	
-	[outlineView reloadData];
-	[outlineView expandItem:nil expandChildren:YES];
-	
-	[inventoryView setItems:inventoryItem];
-	[quickView setItems:quickItem];
-	[armorView setItems:armorItem];
+	[inventoryView setItems:normalInventory];
+	[quickView setItems:quickInventory];
+	[armorView setItems:armorInventory];
 	
 	dirty = NO;
 	statusTextField.stringValue = @"";
@@ -151,7 +144,7 @@
 	
 	NSMutableArray *newInventory = [NSMutableArray array];
 	
-	for (NSArray *items in rootItems)
+	for (NSArray *items in [NSArray arrayWithObjects:armorInventory, quickInventory, normalInventory, nil])
 	{
 		for (IJInventoryItem *item in items)
 		{
@@ -205,20 +198,16 @@
 
 - (void)delete:(id)sender
 {
-	IJInventoryItem *item = [outlineView itemAtRow:[outlineView selectedRow]];
-	item.count = 0;
-	item.itemId = 0;
-	item.damage = 0;
-	[self markDirty];
-	[outlineView reloadItem:item];
+//	IJInventoryItem *item = [outlineView itemAtRow:[outlineView selectedRow]];
+//	item.count = 0;
+//	item.itemId = 0;
+//	item.damage = 0;
+//	[self markDirty];
+//	[outlineView reloadItem:item];
 }
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
-	if (anItem.action == @selector(delete:))
-	{
-		return [outlineView selectedRow] != -1 && ![rootItems containsObject:[outlineView itemAtRow:[outlineView selectedRow]]];
-	}
 	return YES;
 }
 
@@ -242,17 +231,17 @@
 	if (theInventoryView == inventoryView)
 	{
 		*slotOffset = IJInventorySlotNormalFirst;
-		return inventoryItem;
+		return normalInventory;
 	}
 	else if (theInventoryView == quickView)
 	{
 		*slotOffset = IJInventorySlotQuickFirst;
-		return quickItem;
+		return quickInventory;
 	}
 	else if (theInventoryView == armorView)
 	{
 		*slotOffset = IJInventorySlotArmorFirst;
-		return armorItem;
+		return armorInventory;
 	}
 	return nil;
 }

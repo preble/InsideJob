@@ -16,7 +16,6 @@
 	IJMinecraftLevel *level;
 	NSArray *inventory;
 	
-	NSOutlineView *outlineView;
 	NSSegmentedControl *worldSelectionControl;
 	NSTextField *statusTextField;
 	
@@ -24,16 +23,19 @@
 	IJInventoryView *quickView;
 	IJInventoryView *armorView;
 	
-	NSArray *rootItems;
-	NSMutableArray *armorItem;
-	NSMutableArray *quickItem;
-	NSMutableArray *inventoryItem;
+	NSMutableArray *armorInventory;
+	NSMutableArray *quickInventory;
+	NSMutableArray *normalInventory;
 	
+	// Search/Item List
+	NSSearchField *itemSearchField;
+	NSTableView *itemTableView;
+	
+	// Document
 	BOOL dirty;
 	int64_t sessionLockValue;
 }
 
-@property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic, assign) IBOutlet NSSegmentedControl *worldSelectionControl;
 @property (nonatomic, assign) IBOutlet NSTextField *statusTextField;
 @property (nonatomic, assign) IBOutlet IJInventoryView *inventoryView;
