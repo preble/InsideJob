@@ -21,6 +21,7 @@
 		66BCFC2B125E9A51005A23F4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC2A125E9A51005A23F4 /* Credits.rtf */; };
 		66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFC35125EA53E005A23F4 /* InsideJob.icns */; };
 		66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */; };
+		66BCFEE812600847005A23F4 /* IJItemMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCFEE712600847005A23F4 /* IJItemMatrix.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -55,6 +56,8 @@
 		66BCFC2A125E9A51005A23F4 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		66BCFC35125EA53E005A23F4 /* InsideJob.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = InsideJob.icns; sourceTree = "<group>"; };
 		66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DataValuesV110Transparent.png; sourceTree = "<group>"; };
+		66BCFEE612600847005A23F4 /* IJItemMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJItemMatrix.h; sourceTree = "<group>"; };
+		66BCFEE712600847005A23F4 /* IJItemMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJItemMatrix.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* InsideJob-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "InsideJob-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Inside Job.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inside Job.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -185,6 +188,8 @@
 				668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */,
 				668B2977125E5DD40060BF71 /* IJItemPickerWindowController.h */,
 				668B2978125E5DD40060BF71 /* IJItemPickerWindowController.m */,
+				66BCFEE612600847005A23F4 /* IJItemMatrix.h */,
+				66BCFEE712600847005A23F4 /* IJItemMatrix.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 				668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */,
 				668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */,
 				668B2979125E5DD40060BF71 /* IJItemPickerWindowController.m in Sources */,
+				66BCFEE812600847005A23F4 /* IJItemMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

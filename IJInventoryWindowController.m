@@ -9,6 +9,7 @@
 #import "IJInventoryWindowController.h"
 #import "IJMinecraftLevel.h"
 #import "IJInventoryItem.h"
+#import "IJItemMatrix.h"
 #import "IJItemPickerWindowController.h"
 
 @implementation IJInventoryWindowController
@@ -16,6 +17,8 @@
 @synthesize outlineView;
 @synthesize worldSelectionControl;
 @synthesize statusTextField;
+@synthesize inventoryMatrixContainer, quickMatrixContainer, armorMatrixContainer;
+
 
 - (void)awakeFromNib
 {
@@ -24,6 +27,15 @@
 	inventoryItem = [NSMutableArray array];
 	rootItems = [[NSArray alloc] initWithObjects:armorItem, quickItem, inventoryItem, nil];
 	statusTextField.stringValue = @"";
+	
+	inventoryMatrix = [IJItemMatrix itemMatrixWithFrame:inventoryMatrixContainer.bounds rows:3 columns:9];
+	[inventoryMatrixContainer addSubview:inventoryMatrix];
+	
+	quickMatrix = [IJItemMatrix itemMatrixWithFrame:quickMatrixContainer.bounds rows:1 columns:9];
+	[quickMatrixContainer addSubview:quickMatrix];
+	
+	armorMatrix = [IJItemMatrix itemMatrixWithFrame:armorMatrixContainer.bounds rows:4 columns:1];
+	[armorMatrixContainer addSubview:armorMatrix];
 }
 - (void)dealloc
 {
@@ -119,6 +131,25 @@
 	
 	[outlineView reloadData];
 	[outlineView expandItem:nil expandChildren:YES];
+	
+	for (IJInventoryItem *item in inventoryItem)
+	{
+		int slot = item.slot - IJInventorySlotNormalFirst;
+		NSImageCell *cell = [inventoryMatrix cellAtRow:slot/9 column:slot%9];
+		cell.image = item.image;
+	}
+	for (IJInventoryItem *item in quickItem)
+	{
+		int slot = item.slot - IJInventorySlotQuickFirst;
+		NSImageCell *cell = [quickMatrix cellAtRow:0 column:slot];
+		cell.image = item.image;
+	}
+	for (IJInventoryItem *item in armorItem)
+	{
+		int slot = item.slot - IJInventorySlotArmorFirst;
+		NSImageCell *cell = [armorMatrix cellAtRow:3-slot column:0];
+		cell.image = item.image;
+	}
 	
 	dirty = NO;
 	statusTextField.stringValue = @"";

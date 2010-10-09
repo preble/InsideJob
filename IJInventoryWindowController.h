@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class IJItemMatrix;
 @class IJMinecraftLevel;
 
 @interface IJInventoryWindowController : NSWindowController {
@@ -17,6 +18,15 @@
 	NSOutlineView *outlineView;
 	NSSegmentedControl *worldSelectionControl;
 	NSTextField *statusTextField;
+	
+	NSView *inventoryMatrixContainer;
+	IJItemMatrix *inventoryMatrix;
+	
+	NSView *quickMatrixContainer;
+	IJItemMatrix *quickMatrix;
+	
+	NSView *armorMatrixContainer;
+	IJItemMatrix *armorMatrix;
 	
 	NSArray *rootItems;
 	NSMutableArray *armorItem;
@@ -30,6 +40,9 @@
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic, assign) IBOutlet NSSegmentedControl *worldSelectionControl;
 @property (nonatomic, assign) IBOutlet NSTextField *statusTextField;
+@property (nonatomic, assign) IBOutlet NSView *inventoryMatrixContainer;
+@property (nonatomic, assign) IBOutlet NSView *quickMatrixContainer;
+@property (nonatomic, assign) IBOutlet NSView *armorMatrixContainer;
 
 @property (nonatomic, retain) NSNumber *worldTime;
 
