@@ -14,7 +14,6 @@
 #import "MAAttachedWindow.h"
 
 @interface IJInventoryWindowController ()
-- (void)removePropertiesWindow;
 @end
 
 @implementation IJInventoryWindowController
@@ -200,6 +199,13 @@
 #pragma mark -
 #pragma mark Actions
 
+- (IBAction)menuSelectWorld:(id)sender
+{
+	int worldIndex = [sender tag];
+	[self loadWorldAtIndex:worldIndex];
+	[worldSelectionControl setSelectedSegment:worldIndex - 1];
+}
+
 - (IBAction)worldSelectionChanged:(id)sender
 {
 	int worldIndex = [worldSelectionControl selectedSegment] + 1;
@@ -300,8 +306,6 @@
 	NSLog(@"%s index=%d", _cmd, itemIndex);
 	// Show the properties window for this item.
 	IJInventoryItem *lastItem = propertiesViewController.item;
-	
-	//[self removePropertiesWindow];
 	
 	NSPoint itemLocationInView = [theInventoryView pointForItemAtIndex:itemIndex];
 	NSPoint point = [theInventoryView convertPoint:itemLocationInView toView:nil];
@@ -435,35 +439,11 @@
 
 
 #pragma mark -
-#pragma mark 
+#pragma mark NSWindowDelegate
 
-- (void)reloadInventoryViewForItem:(IJInventoryItem *)item
+- (void)windowWillClose:(NSNotification *)notification
 {
-	if ([normalInventory containsObject:item])
-		[inventoryView reloadItemAtIndex:[normalInventory indexOfObject:item]];
-	else if ([quickInventory containsObject:item])
-		[quickView reloadItemAtIndex:[quickInventory indexOfObject:item]];
-	else if ([armorInventory containsObject:item])
-		[armorView reloadItemAtIndex:[armorInventory indexOfObject:item]];
+	[NSApp terminate:nil];
 }
-
-- (void)removePropertiesWindow
-{
-	if (observerObject)
-	{
-		[propertiesViewController commitEditing];
-		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
-		observerObject = nil;
-		
-		[self reloadInventoryViewForItem:propertiesViewController.item];
-		
-		[self.window removeChildWindow:propertiesWindow];
-		[propertiesWindow orderOut:nil];
-		//[propertiesWindow release];
-		propertiesWindow = nil;
-		propertiesViewController.item = nil;
-	}
-}
-
 
 @end

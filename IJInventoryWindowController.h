@@ -55,6 +55,7 @@
 
 @property (nonatomic, retain) NSNumber *worldTime;
 
+- (IBAction)menuSelectWorld:(id)sender;
 - (IBAction)worldSelectionChanged:(id)sender;
 - (IBAction)updateItemSearchFilter:(id)sender;
 - (IBAction)makeSearchFieldFirstResponder:(id)sender;

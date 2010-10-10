@@ -319,6 +319,12 @@ const static CGFloat cellOffset = 40;
 	NSData *itemData = [[sender draggingPasteboard] dataForType:IJPasteboardTypeInventoryItem];
 	IJInventoryItem *item = [NSKeyedUnarchiver unarchiveObjectWithData:itemData];
 	
+	IJInventoryItem *existingItem = [items objectAtIndex:index];
+	
+	if (existingItem.itemId == item.itemId)
+	{
+		item.count = MIN(64, item.count + existingItem.count);
+	}
 	[delegate inventoryView:self setItem:item atIndex:index];
 	return YES;
 }
