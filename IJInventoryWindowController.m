@@ -222,6 +222,11 @@
 //	[outlineView reloadItem:item];
 }
 
+- (IBAction)makeSearchFieldFirstResponder:(id)sender
+{
+	[itemSearchField becomeFirstResponder];
+}
+
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
 	return YES;
@@ -332,6 +337,8 @@
 																		queue:[NSOperationQueue mainQueue]
 																   usingBlock:^(NSNotification *notification) {
 																	   [propertiesViewController commitEditing];
+																	   if (item.count == 0)
+																		   item.itemId = 0;
 																	   [theInventoryView reloadItemAtIndex:itemIndex];
 																	   [propertiesWindow setAlphaValue:0.0];
 																   }];
@@ -364,7 +371,18 @@
 		NSString *name = [[IJInventoryItem itemIdLookup] objectForKey:itemId];
 		NSRange range = [name rangeOfString:filterString options:NSCaseInsensitiveSearch];
 		if (range.location != NSNotFound)
+		{
 			[results addObject:itemId];
+			continue;
+		}
+		
+		// Also search the item id:
+		range = [[itemId stringValue] rangeOfString:filterString];
+		if (range.location != NSNotFound)
+		{
+			[results addObject:itemId];
+			continue;
+		}
 	}
 	
 	[filteredItemIds autorelease];
