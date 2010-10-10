@@ -215,8 +215,9 @@ const static CGFloat cellOffset = 40;
 	
 	NSImage *image = item.image;
 	
-	// Now clear out item:
-	[delegate inventoryView:self removeItemAtIndex:itemIndex];
+	// Now clear out item, if the option key isn't down (option for copy):
+	if (([theEvent modifierFlags] & NSAlternateKeyMask) == 0)
+		[delegate inventoryView:self removeItemAtIndex:itemIndex];
 	
 	NSPoint dragPoint = NSMakePoint(pointInView.x - image.size.width*0.5, pointInView.y - image.size.height*0.5);
 	
