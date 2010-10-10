@@ -17,6 +17,8 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 	int rows;
 	int cols;
 	
+	BOOL invert;
+	
 	NSEvent *mouseDownEvent;
 	
 	NSArray *items;
@@ -27,7 +29,7 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 }
 @property (nonatomic, assign) id<IJInventoryViewDelegate> delegate;
 
-- (void)setRows:(int)numberOfRows columns:(int)numberOfColumns;
+- (void)setRows:(int)numberOfRows columns:(int)numberOfColumns invert:(BOOL)invert;
 - (void)setItems:(NSArray *)theItems;
 - (NSPoint)pointForItemAtIndex:(int)index;
 - (void)reloadItemAtIndex:(int)itemIndex;

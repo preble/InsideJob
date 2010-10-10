@@ -32,9 +32,9 @@
 	normalInventory = [[NSMutableArray alloc] init];
 	statusTextField.stringValue = @"";
 	
-	[inventoryView setRows:3 columns:9];
-	[quickView setRows:1 columns:9];
-	[armorView setRows:4 columns:1];
+	[inventoryView setRows:3 columns:9 invert:NO];
+	[quickView setRows:1 columns:9 invert:NO];
+	[armorView setRows:4 columns:1 invert:YES];
 	inventoryView.delegate = self;
 	quickView.delegate = self;
 	armorView.delegate = self;

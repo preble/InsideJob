@@ -61,11 +61,15 @@ const static CGFloat cellOffset = 40;
 {
 	int x = index % cols;
 	int y = index / cols;
+	if (invert)
+		y = rows - 1 - y;
 	return CGPointMake(x * cellOffset, self.bounds.size.height - y * cellOffset);
 }
 
-- (void)setRows:(int)numberOfRows columns:(int)numberOfColumns
+- (void)setRows:(int)numberOfRows columns:(int)numberOfColumns invert:(BOOL)inv
 {
+	invert = inv;
+	
 	CALayer *layer = [CALayer layer];
 	
 	layer.bounds = NSRectToCGRect(self.bounds);
@@ -93,7 +97,12 @@ const static CGFloat cellOffset = 40;
 		{
 			CALayer *layer = [CALayer layer];
 			layer.anchorPoint = CGPointZero;
-			layer.position = CGPointMake(x * cellOffset, y * cellOffset);
+			
+			if (invert)
+				layer.position = CGPointMake(x * cellOffset, (rows - 1 - y) * cellOffset);
+			else
+				layer.position = CGPointMake(x * cellOffset, y * cellOffset);
+			
 			layer.bounds = CGRectMake(0, 0, cellSize, cellSize);
 			layer.borderWidth = 1.0;
 			layer.borderColor = [self borderColor];
@@ -119,11 +128,6 @@ const static CGFloat cellOffset = 40;
 			[self.layer addSublayer:layer];
 		}
 	}
-}
-
-- (CALayer *)layerAtRow:(int)row column:(int)column
-{
-	return [self.layer.sublayers objectAtIndex:row * cols + column];
 }
 
 - (void)reloadItemAtIndex:(int)itemIndex
@@ -157,6 +161,8 @@ const static CGFloat cellOffset = 40;
 	point.y = self.bounds.size.height - point.y;
 	point.x /= cellOffset;
 	point.y /= cellOffset;
+	if (invert)
+		point.y = rows - 1 - floor(point.y);
 	int index = floor(point.y) * cols + floor(point.x); // flip y
 	return index;
 }
