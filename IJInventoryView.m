@@ -139,7 +139,7 @@ const static CGFloat cellOffset = 40;
 	imageLayer.contents = item.image;
 	
 	CATextLayer *textLayer = [layer.sublayers objectAtIndex:1];
-	if (item.count == 0)
+	if (item.count <= 1) // for 1 and 0, show no number.
 		textLayer.string = @"";
 	else
 		textLayer.string = [NSString stringWithFormat:@"%d", item.count];
