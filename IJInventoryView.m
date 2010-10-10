@@ -206,7 +206,6 @@ const static CGFloat cellOffset = 40;
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 	if (!dragging)
 	{
 		NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];

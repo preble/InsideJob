@@ -76,7 +76,7 @@
 {
 	id obj = [[[self class] alloc] init];
 	[obj readFromData:data];
-	return obj;
+	return [obj autorelease];
 }
 
 - (void)readFromData:(NSData *)data

@@ -13,10 +13,4 @@
 
 @synthesize item;
 
-- (void)cancelOperation:(id)sender
-{
-	// Somewhat hacky method of closing the window on Esc.  Depends on us being the window's delegate.
-	[self.view.window orderOut:nil];
-}
-
 @end

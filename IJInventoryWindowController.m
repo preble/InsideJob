@@ -292,6 +292,7 @@
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView selectedItemAtIndex:(int)itemIndex
 {
+	NSLog(@"%s index=%d", _cmd, itemIndex);
 	// Show the properties window for this item.
 	IJInventoryItem *lastItem = propertiesViewController.item;
 	
@@ -305,31 +306,39 @@
 	NSArray *items = [self itemArrayForInventoryView:theInventoryView slotOffset:nil];
 	IJInventoryItem *item = [items objectAtIndex:itemIndex];
 	if (item.itemId == 0 || lastItem == item)
+	{
+		propertiesViewController.item = nil;
 		return; // can't show info on nothing
+	}
 	
 	if (!propertiesViewController)
 	{
 		propertiesViewController = [[IJItemPropertiesViewController alloc] initWithNibName:@"ItemPropertiesView" bundle:nil];
+		
+		propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
+												  attachedToPoint:point
+														 inWindow:self.window
+														   onSide:MAPositionRight
+													   atDistance:0];
+		[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
+		[propertiesWindow setViewMargin:10.0];
+		[propertiesWindow setAlphaValue:1.0];
+		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
 	}
-	propertiesViewController.item = item;
-	propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
-											  attachedToPoint:point
-													 inWindow:self.window
-													   onSide:MAPositionRight
-												   atDistance:0];
-	[propertiesWindow setDelegate:propertiesViewController]; // Be the delegate so it can be part of the responder chain (to get cancelOperation:).
-	[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
-	[propertiesWindow setViewMargin:10.0];
-	[propertiesWindow setAlphaValue:1.0];
-	[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
-	[propertiesWindow makeKeyAndOrderFront:nil];
-	
+	if (observerObject)
+		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
 	observerObject = [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification
 																	   object:propertiesWindow
 																		queue:[NSOperationQueue mainQueue]
 																   usingBlock:^(NSNotification *notification) {
-																	   [self removePropertiesWindow];
+																	   [propertiesViewController commitEditing];
+																	   [theInventoryView reloadItemAtIndex:itemIndex];
+																	   [propertiesWindow setAlphaValue:0.0];
 																   }];
+	propertiesViewController.item = item;
+	[propertiesWindow setPoint:point side:MAPositionRight];
+	[propertiesWindow makeKeyAndOrderFront:nil];
+	[propertiesWindow setAlphaValue:1.0];
 }
 
 #pragma mark -

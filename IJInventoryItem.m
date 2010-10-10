@@ -63,7 +63,7 @@
 	NSUInteger pixelsPerColumn = 36;
 	NSUInteger pixelsPerRow = 56;
 	
-	int index;
+	int index = 0;
 	
 	if (itemId <= 85)
 	{
@@ -115,7 +115,7 @@
 	
 	[NSGraphicsContext restoreGraphicsState];
 	
-	return output;
+	return [output autorelease];
 }
 
 - (NSImage *)image
