@@ -9,11 +9,12 @@
 #import "IJInventoryView.h"
 #import "IJInventoryItem.h"
 #import "MAAttachedWindow.h"
+#import "NSColor+Additions.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString * const IJPasteboardTypeInventoryItem = @"net.adampreble.insidejob.inventoryitem";
 
-const static CGFloat cellSize = 32;
+const static CGFloat cellSize = 36;
 const static CGFloat cellOffset = 40;
 
 @implementation IJInventoryView
@@ -44,6 +45,15 @@ const static CGFloat cellOffset = 40;
 - (BOOL)acceptsFirstResponder
 {
 	return YES;
+}
+
+- (CGColorRef)borderColor
+{
+	return [[NSColor colorWithCalibratedWhite:0.5 alpha:1.0] CGColor];
+}
+- (CGColorRef)highlightedBorderColor
+{
+	return [[NSColor colorWithCalibratedWhite:0 alpha:1.0] CGColor];
 }
 
 // For use by external stuff, since it flips the coordinates and our layer uses flipped geometry.
@@ -86,7 +96,14 @@ const static CGFloat cellOffset = 40;
 			layer.position = CGPointMake(x * cellOffset, y * cellOffset);
 			layer.bounds = CGRectMake(0, 0, cellSize, cellSize);
 			layer.borderWidth = 1.0;
-			layer.borderColor = CGColorGetConstantColor(kCGColorBlack);
+			layer.borderColor = [self borderColor];
+			layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:1.0] CGColor];
+			layer.cornerRadius = 2.0;
+			
+			CALayer *imageLayer = [CALayer layer];
+			imageLayer.position = CGPointMake(cellSize/2.0, cellSize/2.0);
+			imageLayer.bounds = CGRectMake(0, 0, 32, 32);
+			[layer addSublayer:imageLayer];
 			
 			CATextLayer *textLayer = [CATextLayer layer];
 			textLayer.bounds = CGRectMake(0, 0, cellSize-2, 18);
@@ -113,9 +130,11 @@ const static CGFloat cellOffset = 40;
 {
 	IJInventoryItem *item = [items objectAtIndex:itemIndex];
 	CALayer *layer = [self.layer.sublayers objectAtIndex:itemIndex];
-	layer.contents = item.image;
 	
-	CATextLayer *textLayer = [layer.sublayers objectAtIndex:0];
+	CALayer *imageLayer = [layer.sublayers objectAtIndex:0];
+	imageLayer.contents = item.image;
+	
+	CATextLayer *textLayer = [layer.sublayers objectAtIndex:1];
 	if (item.count == 0)
 		textLayer.string = @"";
 	else
@@ -201,7 +220,7 @@ const static CGFloat cellOffset = 40;
 			  event:mouseDownEvent
 		 pasteboard:pasteboard
 			 source:self
-		  slideBack:YES];
+		  slideBack:NO];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
@@ -247,9 +266,9 @@ const static CGFloat cellOffset = 40;
 	[self.layer.sublayers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		CALayer *layer = obj;
 		if (idx == index)
-			layer.borderColor = CGColorGetConstantColor(kCGColorWhite);
+			layer.borderColor = [self highlightedBorderColor];
 		else
-			layer.borderColor = CGColorGetConstantColor(kCGColorBlack);
+			layer.borderColor = [self borderColor];
 	}];
 }
 
