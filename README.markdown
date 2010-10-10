@@ -2,7 +2,7 @@
 
 ### A Minecraft Alpha Inventory Editor for Mac OS X
 
-![Inside Job Screenshot](Screenshot.png)
+![Inside Job Screenshot](http://adampreble.net/images/InsideJob.png)
 
 Inside Job was written in early October 2010 by [Adam Preble](http://adampreble.net).
 
