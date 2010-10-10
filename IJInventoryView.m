@@ -147,7 +147,6 @@ const static CGFloat cellOffset = 40;
 
 - (void)setItems:(NSArray *)theItems
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 	[items autorelease];
 	[theItems retain];
 	items = theItems;
@@ -312,7 +311,7 @@ const static CGFloat cellOffset = 40;
 }
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-	NSLog(@"%s operation=%d", __PRETTY_FUNCTION__, sender.draggingSourceOperationMask);
+	//NSLog(@"%s operation=%d", __PRETTY_FUNCTION__, sender.draggingSourceOperationMask);
 	
 	int index = [self itemIndexForPoint:[self convertPoint:[sender draggingLocation] fromView:nil]];
 	

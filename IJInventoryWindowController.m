@@ -303,7 +303,6 @@
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView selectedItemAtIndex:(int)itemIndex
 {
-	NSLog(@"%s index=%d", _cmd, itemIndex);
 	// Show the properties window for this item.
 	IJInventoryItem *lastItem = propertiesViewController.item;
 	
@@ -314,8 +313,12 @@
 	
 	NSArray *items = [self itemArrayForInventoryView:theInventoryView slotOffset:nil];
 	IJInventoryItem *item = [items objectAtIndex:itemIndex];
+	//NSLog(@"%s index=%d item=%@", _cmd, itemIndex, item);
 	if (item.itemId == 0 || lastItem == item)
 	{
+		// Perhaps caused by a bug, but it seems to be possible for the window to not be invisible at this point,
+		// so we will set the alpha value here to be sure.
+		[propertiesWindow setAlphaValue:0.0];
 		propertiesViewController.item = nil;
 		return; // can't show info on nothing
 	}
@@ -400,7 +403,6 @@
 }
 - (id)tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	// TODO: Change this, because the row will not correspond once we support sorting.
 	NSNumber *itemId = [filteredItemIds objectAtIndex:row];
 	
 	if ([tableColumn.identifier isEqual:@"itemId"])
