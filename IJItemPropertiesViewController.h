@@ -14,4 +14,7 @@
 	IJInventoryItem *item;
 }
 @property (nonatomic, retain) IJInventoryItem *item;
+
+- (IBAction)closeButton:(id)sender;
+
 @end

@@ -321,7 +321,7 @@
 														   onSide:MAPositionRight
 													   atDistance:0];
 		[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
-		[propertiesWindow setViewMargin:10.0];
+		[propertiesWindow setViewMargin:4.0];
 		[propertiesWindow setAlphaValue:1.0];
 		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
 	}
