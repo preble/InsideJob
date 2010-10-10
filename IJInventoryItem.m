@@ -80,10 +80,15 @@
 		index = itemId - 256;
 		atlasOffset = NSMakePoint(445, 23+52);
 	}
-	else if (itemId >= 2556 && itemId <= 2557)
+	else if (itemId == 2256)
 	{
-		index = itemId - 2556;
-		atlasOffset = NSMakePoint(445+pixelsPerColumn, 23+52);
+		index = 0;
+		atlasOffset = NSMakePoint(445+pixelsPerColumn + 4, 23+52 + 10 * pixelsPerRow);
+	}
+	else if (itemId == 2257)
+	{
+		index = 0;
+		atlasOffset = NSMakePoint(445+pixelsPerColumn + 49, 23+52 + 10 * pixelsPerRow);
 	}
 	else
 	{
