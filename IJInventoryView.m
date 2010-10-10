@@ -63,7 +63,7 @@ const static CGFloat cellOffset = 40;
 	int y = index / cols;
 	if (invert)
 		y = rows - 1 - y;
-	return CGPointMake(x * cellOffset, self.bounds.size.height - y * cellOffset);
+	return NSMakePoint(x * cellOffset, self.bounds.size.height - y * cellOffset);
 }
 
 - (void)setRows:(int)numberOfRows columns:(int)numberOfColumns invert:(BOOL)inv
@@ -121,7 +121,7 @@ const static CGFloat cellOffset = 40;
 			textLayer.fontSize = 18;
 			textLayer.shadowOpacity = 1.0;
 			textLayer.shadowRadius = 0.5;
-			textLayer.shadowOffset = NSMakeSize(0, 1);
+			textLayer.shadowOffset = CGSizeMake(0, 1);
 			textLayer.alignmentMode = @"right";
 			[layer addSublayer:textLayer];
 			
