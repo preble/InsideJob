@@ -116,7 +116,7 @@ const static CGFloat cellOffset = 40;
 			
 			CATextLayer *textLayer = [CATextLayer layer];
 			textLayer.bounds = CGRectMake(0, 0, cellSize-2, 18);
-			textLayer.position = CGPointMake(cellSize/2.0, cellSize/2.0 + 18/2 - 1);
+			textLayer.position = CGPointMake(cellSize/2.0, cellSize/2.0 + 18/2 + 1);
 			textLayer.foregroundColor = CGColorGetConstantColor(kCGColorWhite);
 			textLayer.fontSize = 18;
 			textLayer.shadowOpacity = 1.0;
