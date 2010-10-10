@@ -8,8 +8,8 @@
 
 #import "IJInventoryView.h"
 #import "IJInventoryItem.h"
-#import "IJItemPropertiesViewController.h"
 #import "MAAttachedWindow.h"
+#import <QuartzCore/QuartzCore.h>
 
 NSString * const IJPasteboardTypeInventoryItem = @"net.adampreble.insidejob.inventoryitem";
 
@@ -34,7 +34,6 @@ const static CGFloat cellOffset = 40;
 {
 	[items release];
 	[mouseDownEvent release];
-	[propertiesViewController release];
 	[super dealloc];
 }
 
@@ -46,24 +45,13 @@ const static CGFloat cellOffset = 40;
 {
 	return YES;
 }
-- (void)removePropertiesWindow
+
+// For use by external stuff, since it flips the coordinates and our layer uses flipped geometry.
+- (NSPoint)pointForItemAtIndex:(int)index
 {
-	if (observerObject)
-	{
-		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
-		observerObject = nil;
-		
-		[self.window removeChildWindow:propertiesWindow];
-		[propertiesWindow orderOut:nil];
-		//[propertiesWindow release];
-		propertiesWindow = nil;
-		propertiesViewController.item = nil;
-	}
-}
-- (BOOL)resignFirstResponder
-{
-	[self removePropertiesWindow];
-	return YES;
+	int x = index % cols;
+	int y = index / cols;
+	return CGPointMake(x * cellOffset, self.bounds.size.height - y * cellOffset);
 }
 
 - (void)setRows:(int)numberOfRows columns:(int)numberOfColumns
@@ -99,6 +87,18 @@ const static CGFloat cellOffset = 40;
 			layer.bounds = CGRectMake(0, 0, cellSize, cellSize);
 			layer.borderWidth = 1.0;
 			layer.borderColor = CGColorGetConstantColor(kCGColorBlack);
+			
+			CATextLayer *textLayer = [CATextLayer layer];
+			textLayer.bounds = CGRectMake(0, 0, cellSize-2, 18);
+			textLayer.position = CGPointMake(cellSize/2.0, cellSize/2.0 + 18/2 - 1);
+			textLayer.foregroundColor = CGColorGetConstantColor(kCGColorWhite);
+			textLayer.fontSize = 18;
+			textLayer.shadowOpacity = 1.0;
+			textLayer.shadowRadius = 0.5;
+			textLayer.shadowOffset = NSMakeSize(0, 1);
+			textLayer.alignmentMode = @"right";
+			[layer addSublayer:textLayer];
+			
 			[self.layer addSublayer:layer];
 		}
 	}
@@ -109,6 +109,19 @@ const static CGFloat cellOffset = 40;
 	return [self.layer.sublayers objectAtIndex:row * cols + column];
 }
 
+- (void)reloadItemAtIndex:(int)itemIndex
+{
+	IJInventoryItem *item = [items objectAtIndex:itemIndex];
+	CALayer *layer = [self.layer.sublayers objectAtIndex:itemIndex];
+	layer.contents = item.image;
+	
+	CATextLayer *textLayer = [layer.sublayers objectAtIndex:0];
+	if (item.count == 0)
+		textLayer.string = @"";
+	else
+		textLayer.string = [NSString stringWithFormat:@"%d", item.count];
+}
+
 - (void)setItems:(NSArray *)theItems
 {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
@@ -116,12 +129,8 @@ const static CGFloat cellOffset = 40;
 	[theItems retain];
 	items = theItems;
 	
-	//NSLog(@"%@ sublayers=%@", [self layer], self.layer.sublayers);
-	[items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		IJInventoryItem *item = obj;
-		CALayer *layer = [self.layer.sublayers objectAtIndex:idx];
-		layer.contents = item.image;
-	}];
+	for (int i = 0; i < items.count; i++)
+		[self reloadItemAtIndex:i];
 }
 
 - (int)itemIndexForPoint:(NSPoint)point
@@ -200,42 +209,11 @@ const static CGFloat cellOffset = 40;
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 	if (!dragging)
 	{
-		// Show the properties window for this item.
-		IJInventoryItem *lastItem = propertiesViewController.item;
-		
-		[self removePropertiesWindow];
-		
 		NSPoint mouseDownPoint = [mouseDownEvent locationInWindow];
 		NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
 		
 		int itemIndex = [self itemIndexForPoint:pointInView];
-		IJInventoryItem *item = [items objectAtIndex:itemIndex];
-		if (item.itemId == 0 || lastItem == item)
-			return; // can't show info on nothing
-		
-		if (!propertiesViewController)
-		{
-			propertiesViewController = [[IJItemPropertiesViewController alloc] initWithNibName:@"ItemPropertiesView" bundle:nil];
-		}
-		propertiesViewController.item = item;
-		propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
-												  attachedToPoint:mouseDownPoint
-														 inWindow:self.window
-														   onSide:MAPositionRight
-													   atDistance:0];
-		[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
-		[propertiesWindow setViewMargin:10.0];
-		[propertiesWindow setAlphaValue:1.0];
-		//[[propertiesWindow animator] setAlphaValue:1.0];
-		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
-		[propertiesWindow makeKeyAndOrderFront:nil];
-		
-		observerObject = [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification
-																		   object:propertiesWindow
-																			queue:[NSOperationQueue mainQueue]
-																	   usingBlock:^(NSNotification *notification) {
-																		   [self removePropertiesWindow];
-													  }];
+		[delegate inventoryView:self selectedItemAtIndex:itemIndex];
 	}
 }
 

@@ -12,8 +12,6 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 
 @protocol IJInventoryViewDelegate;
 @class IJInventoryItem;
-@class IJItemPropertiesViewController;
-@class MAAttachedWindow;
 
 @interface IJInventoryView : NSView {
 	int rows;
@@ -23,10 +21,6 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 	
 	NSArray *items;
 	
-	IJItemPropertiesViewController *propertiesViewController;
-	MAAttachedWindow *propertiesWindow;
-	id observerObject;
-	
 	id<IJInventoryViewDelegate> delegate;
 	
 	BOOL dragging;
@@ -35,6 +29,8 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 
 - (void)setRows:(int)numberOfRows columns:(int)numberOfColumns;
 - (void)setItems:(NSArray *)theItems;
+- (NSPoint)pointForItemAtIndex:(int)index;
+- (void)reloadItemAtIndex:(int)itemIndex;
 
 @end
 
@@ -42,4 +38,5 @@ extern NSString * const IJPasteboardTypeInventoryItem;
 @protocol IJInventoryViewDelegate <NSObject>
 - (void)inventoryView:(IJInventoryView *)inventoryView removeItemAtIndex:(int)itemIndex;
 - (void)inventoryView:(IJInventoryView *)inventoryView setItem:(IJInventoryItem *)item atIndex:(int)itemIndex;
+- (void)inventoryView:(IJInventoryView *)inventoryView selectedItemAtIndex:(int)itemIndex;
 @end

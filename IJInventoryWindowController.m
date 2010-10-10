@@ -9,8 +9,13 @@
 #import "IJInventoryWindowController.h"
 #import "IJMinecraftLevel.h"
 #import "IJInventoryItem.h"
-#import "IJItemPickerWindowController.h"
 #import "IJInventoryView.h"
+#import "IJItemPropertiesViewController.h"
+#import "MAAttachedWindow.h"
+
+@interface IJInventoryWindowController ()
+- (void)removePropertiesWindow;
+@end
 
 @implementation IJInventoryWindowController
 
@@ -43,6 +48,7 @@
 
 - (void)dealloc
 {
+	[propertiesViewController release];
 	[armorInventory release];
 	[quickInventory release];
 	[normalInventory release];
@@ -240,17 +246,17 @@
 {
 	if (theInventoryView == inventoryView)
 	{
-		*slotOffset = IJInventorySlotNormalFirst;
+		if (slotOffset) *slotOffset = IJInventorySlotNormalFirst;
 		return normalInventory;
 	}
 	else if (theInventoryView == quickView)
 	{
-		*slotOffset = IJInventorySlotQuickFirst;
+		if (slotOffset) *slotOffset = IJInventorySlotQuickFirst;
 		return quickInventory;
 	}
 	else if (theInventoryView == armorView)
 	{
-		*slotOffset = IJInventorySlotArmorFirst;
+		if (slotOffset) *slotOffset = IJInventorySlotArmorFirst;
 		return armorInventory;
 	}
 	return nil;
@@ -282,6 +288,48 @@
 		[theInventoryView setItems:itemArray];
 	}
 	[self markDirty];
+}
+
+- (void)inventoryView:(IJInventoryView *)theInventoryView selectedItemAtIndex:(int)itemIndex
+{
+	// Show the properties window for this item.
+	IJInventoryItem *lastItem = propertiesViewController.item;
+	
+	//[self removePropertiesWindow];
+	
+	NSPoint itemLocationInView = [theInventoryView pointForItemAtIndex:itemIndex];
+	NSPoint point = [theInventoryView convertPoint:itemLocationInView toView:nil];
+	point.x += 16 + 8;
+	point.y -= 16;
+	
+	NSArray *items = [self itemArrayForInventoryView:theInventoryView slotOffset:nil];
+	IJInventoryItem *item = [items objectAtIndex:itemIndex];
+	if (item.itemId == 0 || lastItem == item)
+		return; // can't show info on nothing
+	
+	if (!propertiesViewController)
+	{
+		propertiesViewController = [[IJItemPropertiesViewController alloc] initWithNibName:@"ItemPropertiesView" bundle:nil];
+	}
+	propertiesViewController.item = item;
+	propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
+											  attachedToPoint:point
+													 inWindow:self.window
+													   onSide:MAPositionRight
+												   atDistance:0];
+	[propertiesWindow setDelegate:propertiesViewController]; // Be the delegate so it can be part of the responder chain (to get cancelOperation:).
+	[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
+	[propertiesWindow setViewMargin:10.0];
+	[propertiesWindow setAlphaValue:1.0];
+	[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
+	[propertiesWindow makeKeyAndOrderFront:nil];
+	
+	observerObject = [[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidResignKeyNotification
+																	   object:propertiesWindow
+																		queue:[NSOperationQueue mainQueue]
+																   usingBlock:^(NSNotification *notification) {
+																	   [self removePropertiesWindow];
+																   }];
 }
 
 #pragma mark -
@@ -359,6 +407,36 @@
 }
 
 
+#pragma mark -
+#pragma mark 
+
+- (void)reloadInventoryViewForItem:(IJInventoryItem *)item
+{
+	if ([normalInventory containsObject:item])
+		[inventoryView reloadItemAtIndex:[normalInventory indexOfObject:item]];
+	else if ([quickInventory containsObject:item])
+		[quickView reloadItemAtIndex:[quickInventory indexOfObject:item]];
+	else if ([armorInventory containsObject:item])
+		[armorView reloadItemAtIndex:[armorInventory indexOfObject:item]];
+}
+
+- (void)removePropertiesWindow
+{
+	if (observerObject)
+	{
+		[propertiesViewController commitEditing];
+		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
+		observerObject = nil;
+		
+		[self reloadInventoryViewForItem:propertiesViewController.item];
+		
+		[self.window removeChildWindow:propertiesWindow];
+		[propertiesWindow orderOut:nil];
+		//[propertiesWindow release];
+		propertiesWindow = nil;
+		propertiesViewController.item = nil;
+	}
+}
 
 
 @end

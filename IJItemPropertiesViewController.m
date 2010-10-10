@@ -13,31 +13,10 @@
 
 @synthesize item;
 
-+ (NSSet *)keyPathsForValuesAffectingCountNumber
+- (void)cancelOperation:(id)sender
 {
-	return [NSSet setWithObject:@"item"];
-}
-+ (NSSet *)keyPathsForValuesAffectingDamageNumber
-{
-	return [NSSet setWithObject:@"item"];
-}
-
-- (NSNumber *)countNumber
-{
-	return [NSNumber numberWithShort:item.count];
-}
-- (void)setCountNumber:(NSNumber *)number
-{
-	item.count = [number shortValue];
-}
-
-- (NSNumber *)damageNumber
-{
-	return [NSNumber numberWithShort:item.damage];
-}
-- (void)setDamageNumber:(NSNumber *)number
-{
-	item.damage = [number shortValue];
+	// Somewhat hacky method of closing the window on Esc.  Depends on us being the window's delegate.
+	[self.view.window orderOut:nil];
 }
 
 @end

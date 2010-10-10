@@ -11,6 +11,8 @@
 
 @class IJInventoryView;
 @class IJMinecraftLevel;
+@class MAAttachedWindow;
+@class IJItemPropertiesViewController;
 
 @interface IJInventoryWindowController : NSWindowController <NSCollectionViewDelegate, IJInventoryViewDelegate> {
 	IJMinecraftLevel *level;
@@ -32,6 +34,11 @@
 	NSTableView *itemTableView;
 	NSArray *allItemIds;
 	NSArray *filteredItemIds;
+	
+	// 
+	IJItemPropertiesViewController *propertiesViewController;
+	MAAttachedWindow *propertiesWindow;
+	id observerObject;
 	
 	// Document
 	BOOL dirty;
