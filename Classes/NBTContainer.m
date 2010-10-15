@@ -270,6 +270,10 @@
 			{
 				[self appendDouble:[item doubleValue] toData:data];
 			}
+			else if (listType == NBTTypeByte)
+			{
+				[self appendByte:[item unsignedCharValue] toData:data];
+			}
 			else
 			{
 				NSLog(@"Unhandled list type: %d", listType);

@@ -56,6 +56,15 @@
 {
 	NSMutableArray *newChildren = [NSMutableArray array];
 	NBTContainer *inventoryList = [self inventoryList];
+	
+	if (inventoryList.listType != NBTTypeCompound)
+	{
+		// There appears to be a bug in the way Minecraft writes empty inventory lists; it appears to
+		// set the list type to 'byte', so we will correct it here.
+		NSLog(@"%s Fixing inventory list type; was %d.", __PRETTY_FUNCTION__, inventoryList.listType);
+		inventoryList.listType = NBTTypeCompound;
+	}
+	
 	for (IJInventoryItem *invItem in newInventory)
 	{
 		NSArray *listItems = [NSArray arrayWithObjects:
