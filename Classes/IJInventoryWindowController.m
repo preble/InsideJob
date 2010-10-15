@@ -136,8 +136,8 @@
 		}
 	}
 	
-	NSLog(@"normal: %@", normalInventory);
-	NSLog(@"quick: %@", quickInventory);
+//	NSLog(@"normal: %@", normalInventory);
+//	NSLog(@"quick: %@", quickInventory);
 	
 	[inventoryView setItems:normalInventory];
 	[quickView setItems:quickInventory];
@@ -172,19 +172,43 @@
 	
 	NSString *backupPath = [levelPath stringByAppendingPathExtension:@"insidejobbackup"];
 	
-	BOOL success;
+	BOOL success = NO;
 	NSError *error = nil;
+	
 	success = [[NSFileManager defaultManager] removeItemAtPath:backupPath error:&error];
-	success = [[NSFileManager defaultManager] copyItemAtPath:levelPath
-													  toPath:backupPath
-													   error:&error];
 	if (!success)
 	{
-		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to create a backup of the existing level file.");
+		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to remove the prior backup of this level file:\n%@", [error localizedDescription]);
 		return;
 	}
 	
-	[[level writeData] writeToURL:[NSURL fileURLWithPath:levelPath] atomically:NO];
+	success = [[NSFileManager defaultManager] copyItemAtPath:levelPath toPath:backupPath error:&error];
+	if (!success)
+	{
+		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to create a backup of the existing level file:\n%@", [error localizedDescription]);
+		return;
+	}
+	
+	success = [[level writeData] writeToURL:[NSURL fileURLWithPath:levelPath] options:0 error:&error];
+	if (!success)
+	{
+		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+		
+		NSError *restoreError = nil;
+		success = [[NSFileManager defaultManager] copyItemAtPath:backupPath toPath:levelPath error:&restoreError];
+		if (!success)
+		{
+			NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [restoreError localizedDescription]);
+			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup could not be restored.\n%@\n%@", [error localizedDescription], [restoreError localizedDescription]);
+		}
+		else
+		{
+			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup was successfully restored.\n%@", [error localizedDescription]);
+		}
+		return;
+	}
 	
 	dirty = NO;
 	statusTextField.stringValue = @"Saved.";
