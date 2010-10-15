@@ -16,5 +16,13 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[inventoryWindowController worldSelectionChanged:nil];
 }
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	BOOL shouldClose = [inventoryWindowController windowShouldClose:nil];
+	if (shouldClose)
+		return NSTerminateNow;
+	else
+		return NSTerminateCancel;
+}
 
 @end

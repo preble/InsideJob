@@ -14,7 +14,7 @@
 @class MAAttachedWindow;
 @class IJItemPropertiesViewController;
 
-@interface IJInventoryWindowController : NSWindowController <NSCollectionViewDelegate, IJInventoryViewDelegate> {
+@interface IJInventoryWindowController : NSWindowController <NSWindowDelegate, IJInventoryViewDelegate> {
 	IJMinecraftLevel *level;
 	NSArray *inventory;
 	
@@ -43,6 +43,8 @@
 	// Document
 	BOOL dirty;
 	int64_t sessionLockValue;
+	int loadedWorldIndex;
+	int attemptedLoadWorldIndex;
 }
 
 @property (nonatomic, assign) IBOutlet NSSegmentedControl *worldSelectionControl;

@@ -14,6 +14,8 @@
 #import "MAAttachedWindow.h"
 
 @interface IJInventoryWindowController ()
+- (void)saveWorld;
+- (void)loadWorldAtIndex:(int)worldIndex;
 @end
 
 @implementation IJInventoryWindowController
@@ -60,12 +62,42 @@
 #pragma mark -
 #pragma mark World Selection
 
+- (void)dirtyLoadSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo
+{
+	if (returnCode == NSAlertOtherReturn) // Cancel
+	{
+		[worldSelectionControl setSelectedSegment:loadedWorldIndex-1];
+		return;
+	}
+	
+	if (returnCode == NSAlertDefaultReturn) // Save
+	{
+		[self saveWorld];
+		[self loadWorldAtIndex:attemptedLoadWorldIndex];
+	}
+	else if (returnCode == NSAlertAlternateReturn) // Don't save
+	{
+		dirty = NO; // Slightly hacky -- prevent the alert from being put up again.
+		[self loadWorldAtIndex:attemptedLoadWorldIndex];
+	}
+}
+
 - (void)loadWorldAtIndex:(int)worldIndex
 {
+	if (dirty)
+	{
+		attemptedLoadWorldIndex = worldIndex;
+		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, @selector(dirtyLoadSheetDidEnd:returnCode:contextInfo:), nil, nil, @"Your changes will be lost if you do not save them.");
+		return;
+	}
+	
 	[armorInventory removeAllObjects];
 	[quickInventory removeAllObjects];
 	[normalInventory removeAllObjects];
 	
+	[inventoryView setItems:normalInventory];
+	[quickView setItems:quickInventory];
+	[armorView setItems:armorInventory];
 	
 	[self willChangeValueForKey:@"worldTime"];
 	[level release];
@@ -73,10 +105,6 @@
 	[inventory release];
 	inventory = nil;
 	[self didChangeValueForKey:@"worldTime"];
-	
-	[inventoryView setItems:normalInventory];
-	[quickView setItems:quickInventory];
-	[armorView setItems:armorInventory];
 	
 	statusTextField.stringValue = @"No world loaded.";
 	
@@ -150,10 +178,12 @@
 	
 	dirty = NO;
 	statusTextField.stringValue = @"";
+	loadedWorldIndex = worldIndex;
 }
 
-- (void)saveToWorldAtIndex:(int)worldIndex
+- (void)saveWorld
 {
+	int worldIndex = loadedWorldIndex;
 	if (inventory == nil)
 		return; // no world loaded, nothing to save
 	
@@ -246,8 +276,7 @@
 
 - (void)saveDocument:(id)sender
 {
-	int worldIndex = [worldSelectionControl selectedSegment] + 1;
-	[self saveToWorldAtIndex:worldIndex];
+	[self saveWorld];
 }
 
 - (void)delete:(id)sender
@@ -477,6 +506,35 @@
 
 #pragma mark -
 #pragma mark NSWindowDelegate
+
+- (void)dirtyCloseSheetDidDismiss:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo
+{
+	if (returnCode == NSAlertOtherReturn) // Cancel
+		return;
+	
+	if (returnCode == NSAlertDefaultReturn) // Save
+	{
+		[self saveWorld];
+		[self.window performClose:nil];
+	}
+	else if (returnCode == NSAlertAlternateReturn) // Don't save
+	{
+		dirty = NO; // Slightly hacky -- prevent the alert from being put up again.
+		[self.window performClose:nil];
+	}
+}
+
+
+- (BOOL)windowShouldClose:(id)sender
+{
+	if (dirty)
+	{
+		// Note: We use the didDismiss selector becuase the sheet needs to be closed in order for performClose: to work.
+		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, nil, @selector(dirtyCloseSheetDidDismiss:returnCode:contextInfo:), nil, @"Your changes will be lost if you do not save them.");
+		return NO;
+	}
+	return YES;
+}
 
 - (void)windowWillClose:(NSNotification *)notification
 {
