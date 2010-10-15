@@ -74,6 +74,11 @@
 	inventory = nil;
 	[self didChangeValueForKey:@"worldTime"];
 	
+	[inventoryView setItems:normalInventory];
+	[quickView setItems:quickInventory];
+	[armorView setItems:armorInventory];
+	
+	statusTextField.stringValue = @"No world loaded.";
 	
 	if (![IJMinecraftLevel worldExistsAtIndex:worldIndex])
 	{
@@ -149,6 +154,9 @@
 
 - (void)saveToWorldAtIndex:(int)worldIndex
 {
+	if (inventory == nil)
+		return; // no world loaded, nothing to save
+	
 	if (![IJMinecraftLevel checkSessionLockAtIndex:worldIndex value:sessionLockValue])
 	{
 		NSBeginCriticalAlertSheet(@"Another application has modified this world.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"The session lock was changed by another application.");
@@ -259,6 +267,9 @@
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
+	if (anItem.action == @selector(saveDocument:))
+		return inventory != nil;
+		
 	return YES;
 }
 

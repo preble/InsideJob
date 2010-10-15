@@ -132,7 +132,11 @@ const static CGFloat cellOffset = 40;
 
 - (void)reloadItemAtIndex:(int)itemIndex
 {
-	IJInventoryItem *item = [items objectAtIndex:itemIndex];
+	IJInventoryItem *item = nil;
+	
+	if (itemIndex < items.count)
+		item = [items objectAtIndex:itemIndex];
+	
 	CALayer *layer = [self.layer.sublayers objectAtIndex:itemIndex];
 	
 	CALayer *imageLayer = [layer.sublayers objectAtIndex:0];
@@ -151,7 +155,7 @@ const static CGFloat cellOffset = 40;
 	[theItems retain];
 	items = theItems;
 	
-	for (int i = 0; i < items.count; i++)
+	for (int i = 0; i < rows * cols; i++)
 		[self reloadItemAtIndex:i];
 }
 
@@ -201,6 +205,9 @@ const static CGFloat cellOffset = 40;
 	// Find the IJInventoryItem:
 	NSPoint pointInView = [self convertPoint:mouseDownPoint fromView:nil];
 	int itemIndex = [self itemIndexForPoint:pointInView];
+	if (itemIndex >= items.count)
+		return;
+	
 	IJInventoryItem *item = [items objectAtIndex:itemIndex];
 	if (item.itemId == 0)
 		return; // can't drag nothing
@@ -282,6 +289,10 @@ const static CGFloat cellOffset = 40;
 {
 	// TODO: Detect and ignore same slot.
 	int index = [self itemIndexForPoint:[self convertPoint:[sender draggingLocation] fromView:nil]];
+	
+	if (index >= items.count) // this could happen if this is an invalid world
+		return NSDragOperationNone;
+	
 	[self moveHighlightToLayerAtIndex:index];
 	
 	if ([[sender draggingSource] isKindOfClass:[self class]])
@@ -293,6 +304,10 @@ const static CGFloat cellOffset = 40;
 {
 	// TODO: Detect and ignore same slot.
 	int index = [self itemIndexForPoint:[self convertPoint:[sender draggingLocation] fromView:nil]];
+	
+	if (index >= items.count) // this could happen if this is an invalid world
+		return NSDragOperationNone;
+	
 	[self moveHighlightToLayerAtIndex:index];
 
 	if ([[sender draggingSource] isKindOfClass:[self class]])
