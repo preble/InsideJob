@@ -213,14 +213,19 @@
 	BOOL success = NO;
 	NSError *error = nil;
 	
-	success = [[NSFileManager defaultManager] removeItemAtPath:backupPath error:&error];
-	if (!success)
+	// Remove a previously-created .insidejobbackup, if it exists:
+	if ([[NSFileManager defaultManager] fileExistsAtPath:backupPath])
 	{
-		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
-		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to remove the prior backup of this level file:\n%@", [error localizedDescription]);
-		return;
+		success = [[NSFileManager defaultManager] removeItemAtPath:backupPath error:&error];
+		if (!success)
+		{
+			NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to remove the prior backup of this level file:\n%@", [error localizedDescription]);
+			return;
+		}
 	}
 	
+	// Create the backup:
 	success = [[NSFileManager defaultManager] copyItemAtPath:levelPath toPath:backupPath error:&error];
 	if (!success)
 	{
@@ -229,6 +234,7 @@
 		return;
 	}
 	
+	// Write the new level.dat out:
 	success = [[level writeData] writeToURL:[NSURL fileURLWithPath:levelPath] options:0 error:&error];
 	if (!success)
 	{
