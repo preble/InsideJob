@@ -139,6 +139,8 @@
 													  error:&error];
 		NSMutableDictionary *building = [NSMutableDictionary dictionary];
 		[lines enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
+			if ([line hasPrefix:@"#"]) // ignore lines with a # prefix
+				return;
 			NSArray *components = [line componentsSeparatedByString:@","];
 			NSNumber *itemId = [NSNumber numberWithShort:[[components objectAtIndex:0] intValue]];
 			NSString *name = [components objectAtIndex:1];
