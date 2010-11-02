@@ -65,7 +65,7 @@
 	
 	int index = 0;
 	
-	if (itemId <= 85)
+	if (itemId <= 91)
 	{
 		if (itemId <= 20)
 			index = itemId - 1; // first item is 1
@@ -75,7 +75,7 @@
 			index = itemId - (37 - 21);
 		atlasOffset = NSMakePoint(36, 75);
 	}
-	else if (itemId >= 256 && itemId <= 346)
+	else if (itemId >= 256 && itemId <= 350)
 	{
 		index = itemId - 256;
 		atlasOffset = NSMakePoint(445, 23+52);
@@ -83,25 +83,25 @@
 	else if (itemId == 2256)
 	{
 		index = 0;
-		atlasOffset = NSMakePoint(445+pixelsPerColumn + 4, 23+52 + 10 * pixelsPerRow);
+		atlasOffset = NSMakePoint(445+pixelsPerColumn + 147, 23+52 + 10 * pixelsPerRow);
 	}
 	else if (itemId == 2257)
 	{
 		index = 0;
-		atlasOffset = NSMakePoint(445+pixelsPerColumn + 49, 23+52 + 10 * pixelsPerRow);
+		atlasOffset = NSMakePoint(445+pixelsPerColumn + 192, 23+52 + 10 * pixelsPerRow);
 	}
 	else
 	{
 		NSLog(@"%s error: unrecognized item id %d", __PRETTY_FUNCTION__, itemId);
 		return nil;
 	}
-
+	
 	atlasOffset.x += pixelsPerColumn * (index % itemsPerRow);
 	atlasOffset.y += pixelsPerRow    * (index / itemsPerRow);
 	
 	NSRect atlasRect = NSMakeRect(atlasOffset.x, atlasOffset.y, itemImageSize.width, itemImageSize.height);
 	
-
+	
 	NSImage *atlas = [NSImage imageNamed:@"DataValuesV110Transparent.png"];
 	NSImage *output = [[NSImage alloc] initWithSize:itemImageSize];
 	
