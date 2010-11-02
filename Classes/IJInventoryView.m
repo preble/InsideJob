@@ -250,7 +250,10 @@ const static CGFloat cellOffset = 40;
 
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
-	return NSDragOperationEvery;
+	if (isLocal)
+		return NSDragOperationEvery;
+	else
+		return NSDragOperationDelete;
 }
 //- (void)draggedImage:(NSImage *)image beganAt:(NSPoint)screenPoint
 //{
@@ -260,9 +263,13 @@ const static CGFloat cellOffset = 40;
 {
 	NSLog(@"%s operation=%d", __PRETTY_FUNCTION__, operation);
 	
-	if (operation == NSDragOperationMove)
+	if (operation == NSDragOperationNone)
 	{
-		// 
+		// If the mouse has stopped outside of our bounds, we consider the item to have been removed; show an animation:
+		if (!NSMouseInRect([[self window] convertScreenToBase:screenPoint], [self bounds], NO))
+		{
+			NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, [NSEvent mouseLocation], NSZeroSize, nil, nil, nil);
+		}
 	}
 }
 //- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint
