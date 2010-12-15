@@ -61,5 +61,6 @@
 - (IBAction)worldSelectionChanged:(id)sender;
 - (IBAction)updateItemSearchFilter:(id)sender;
 - (IBAction)makeSearchFieldFirstResponder:(id)sender;
+- (IBAction)itemTableViewDoubleClicked:(id)sender;
 
 @end

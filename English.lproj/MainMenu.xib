@@ -924,7 +924,6 @@
 													</object>
 													<int key="NSResizingMask">3</int>
 													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="497206092"/>
 												</object>
 												<object class="NSTableColumn" id="1010230928">
@@ -956,7 +955,6 @@
 													</object>
 													<int key="NSResizingMask">3</int>
 													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="497206092"/>
 												</object>
 												<object class="NSTableColumn" id="696979695">
@@ -983,7 +981,6 @@
 													</object>
 													<int key="NSResizingMask">3</int>
 													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
 													<reference key="NSTableView" ref="497206092"/>
 												</object>
 											</object>
@@ -1418,6 +1415,14 @@
 						<reference key="destination" ref="788037042"/>
 					</object>
 					<int key="connectionID">684</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="17633893"/>
+						<reference key="destination" ref="760161335"/>
+					</object>
+					<int key="connectionID">685</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2154,6 +2159,7 @@
 					<string>649.IBViewBoundsToFrameTransform</string>
 					<string>650.IBPluginDependency</string>
 					<string>651.IBPluginDependency</string>
+					<string>652.CustomClassName</string>
 					<string>652.IBPluginDependency</string>
 					<string>654.IBPluginDependency</string>
 					<string>655.IBPluginDependency</string>
@@ -2330,6 +2336,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>IJTableView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2377,7 +2384,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">684</int>
+			<int key="maxID">685</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2398,7 +2405,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">IJInventoryView.h</string>
+						<string key="minorKey">Classes/IJInventoryView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2408,6 +2415,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>itemTableViewDoubleClicked:</string>
 							<string>makeSearchFieldFirstResponder:</string>
 							<string>menuSelectWorld:</string>
 							<string>updateItemSearchFilter:</string>
@@ -2415,6 +2423,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2425,6 +2434,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>itemTableViewDoubleClicked:</string>
 							<string>makeSearchFieldFirstResponder:</string>
 							<string>menuSelectWorld:</string>
 							<string>updateItemSearchFilter:</string>
@@ -2432,6 +2442,10 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">itemTableViewDoubleClicked:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 							<object class="IBActionInfo">
 								<string key="name">makeSearchFieldFirstResponder:</string>
 								<string key="candidateClassName">id</string>
@@ -2526,7 +2540,15 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">IJInventoryWindowController.h</string>
+						<string key="minorKey">Classes/IJInventoryWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">IJTableView</string>
+					<string key="superclassName">NSTableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/IJTableView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2545,7 +2567,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">InsideJobAppDelegate.h</string>
+						<string key="minorKey">Classes/InsideJobAppDelegate.h</string>
 					</object>
 				</object>
 			</object>

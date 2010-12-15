@@ -33,6 +33,10 @@ After changing your inventory you will need to save the currently open world usi
 
 ### Release Notes
 
+#### Unreleased (changes not in the binary builds)
+
+- Streamlined keyboard item-adding: search with Command-F, down arrow to navigate to item, then return adds it to the first available inventory slot.
+
 #### 1.0.1 - November 2, 2010
 
 - Added Halloween update items (thanks to nickloose)

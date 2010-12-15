@@ -45,6 +45,9 @@
 	keys = [keys sortedArrayUsingSelector:@selector(compare:)];
 	allItemIds = [[NSArray alloc] initWithArray:keys];
 	filteredItemIds = [allItemIds retain];
+	
+	[itemTableView setTarget:self];
+	[itemTableView setDoubleAction:@selector(itemTableViewDoubleClicked:)];
 }
 
 - (void)dealloc
@@ -323,6 +326,18 @@
 #pragma mark -
 #pragma mark IJInventoryViewDelegate
 
+- (IJInventoryView *)inventoryViewForItemArray:(NSMutableArray *)theItemArray
+{
+	if (theItemArray == normalInventory)
+		return inventoryView;
+	if (theItemArray == quickInventory)
+		return quickView;
+	if (theItemArray == armorInventory)
+		return armorView;
+	
+	return nil;
+}
+
 - (NSMutableArray *)itemArrayForInventoryView:(IJInventoryView *)theInventoryView slotOffset:(int*)slotOffset
 {
 	if (theInventoryView == inventoryView)
@@ -509,6 +524,42 @@
 	return YES;
 }
 
+- (NSMutableArray *)inventoryArrayWithEmptySlot:(NSUInteger *)slot
+{
+	for (NSMutableArray *inventoryArray in [NSArray arrayWithObjects:quickInventory, normalInventory, nil])
+	{
+		__block BOOL found = NO;
+		[inventoryArray enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
+			IJInventoryItem *item = obj;
+			if (item.count == 0)
+			{
+				*slot = index;
+				*stop = YES;
+				found = YES;
+			}
+		}];
+		if (found)
+			return inventoryArray;
+	}
+	return nil;
+}
+
+- (IBAction)itemTableViewDoubleClicked:(id)sender
+{
+	NSUInteger slot;
+	NSMutableArray *inventoryArray = [self inventoryArrayWithEmptySlot:&slot];
+	if (!inventoryArray)
+		return;
+	
+	IJInventoryItem *item = [inventoryArray objectAtIndex:slot];
+	item.itemId = [[filteredItemIds objectAtIndex:[itemTableView selectedRow]] shortValue];
+	item.count = 1;
+	[self markDirty];
+	
+	IJInventoryView *invView = [self inventoryViewForItemArray:inventoryArray];
+	[invView reloadItemAtIndex:slot];
+	[self inventoryView:invView selectedItemAtIndex:slot];
+}
 
 #pragma mark -
 #pragma mark NSWindowDelegate
@@ -546,5 +597,24 @@
 {
 	[NSApp terminate:nil];
 }
+
+
+#pragma mark -
+#pragma mark NSControlTextEditingDelegate
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)command
+{
+	if (command == @selector(moveDown:))
+	{
+		if ([itemTableView numberOfRows] > 0)
+		{
+			[self.window makeFirstResponder:itemTableView];
+			[itemTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+		}
+		return YES;
+	}
+	return YES;
+}
+
 
 @end
