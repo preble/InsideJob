@@ -16,6 +16,7 @@
 @interface IJInventoryWindowController ()
 - (void)saveWorld;
 - (void)loadWorldAtIndex:(int)worldIndex;
+- (BOOL)isDocumentEdited;
 @end
 
 @implementation IJInventoryWindowController
@@ -80,14 +81,14 @@
 	}
 	else if (returnCode == NSAlertAlternateReturn) // Don't save
 	{
-		dirty = NO; // Slightly hacky -- prevent the alert from being put up again.
+		[self setDocumentEdited:NO]; // Slightly hacky -- prevent the alert from being put up again.
 		[self loadWorldAtIndex:attemptedLoadWorldIndex];
 	}
 }
 
 - (void)loadWorldAtIndex:(int)worldIndex
 {
-	if (dirty)
+	if ([self isDocumentEdited])
 	{
 		attemptedLoadWorldIndex = worldIndex;
 		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, @selector(dirtyLoadSheetDidEnd:returnCode:contextInfo:), nil, nil, @"Your changes will be lost if you do not save them.");
@@ -179,7 +180,7 @@
 	[quickView setItems:quickInventory];
 	[armorView setItems:armorInventory];
 	
-	dirty = NO;
+	[self setDocumentEdited:NO];
 	statusTextField.stringValue = @"";
 	loadedWorldIndex = worldIndex;
 }
@@ -257,14 +258,20 @@
 		return;
 	}
 	
-	dirty = NO;
+	[self setDocumentEdited:NO];
 	statusTextField.stringValue = @"Saved.";
 }
 
-- (void)markDirty
+- (void)setDocumentEdited:(BOOL)edited
 {
-	dirty = YES;
-	statusTextField.stringValue = @"World has unsaved changes.";
+	[super setDocumentEdited:edited];
+	if (edited)
+		statusTextField.stringValue = @"World has unsaved changes.";
+}
+
+- (BOOL)isDocumentEdited
+{
+	return [self.window isDocumentEdited];
 }
 
 #pragma mark -
@@ -294,7 +301,7 @@
 //	item.count = 0;
 //	item.itemId = 0;
 //	item.damage = 0;
-//	[self markDirty];
+//	[self setDocumentEdited:YES];
 //	[outlineView reloadItem:item];
 }
 
@@ -320,7 +327,7 @@
 	[self willChangeValueForKey:@"worldTime"];
 	[level worldTimeContainer].numberValue = number;
 	[self didChangeValueForKey:@"worldTime"];
-	[self markDirty];
+	[self setDocumentEdited:YES];
 }
 
 #pragma mark -
@@ -369,7 +376,7 @@
 		[itemArray replaceObjectAtIndex:itemIndex withObject:item];
 		[theInventoryView setItems:itemArray];
 	}
-	[self markDirty];
+	[self setDocumentEdited:YES];
 }
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView setItem:(IJInventoryItem *)item atIndex:(int)itemIndex
@@ -383,7 +390,7 @@
 		item.slot = slotOffset + itemIndex;
 		[theInventoryView setItems:itemArray];
 	}
-	[self markDirty];
+	[self setDocumentEdited:YES];
 }
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView selectedItemAtIndex:(int)itemIndex
@@ -554,7 +561,7 @@
 	IJInventoryItem *item = [inventoryArray objectAtIndex:slot];
 	item.itemId = [[filteredItemIds objectAtIndex:[itemTableView selectedRow]] shortValue];
 	item.count = 1;
-	[self markDirty];
+	[self setDocumentEdited:YES];
 	
 	IJInventoryView *invView = [self inventoryViewForItemArray:inventoryArray];
 	[invView reloadItemAtIndex:slot];
@@ -576,7 +583,7 @@
 	}
 	else if (returnCode == NSAlertAlternateReturn) // Don't save
 	{
-		dirty = NO; // Slightly hacky -- prevent the alert from being put up again.
+		[self setDocumentEdited:NO]; // Slightly hacky -- prevent the alert from being put up again.
 		[self.window performClose:nil];
 	}
 }
@@ -584,7 +591,7 @@
 
 - (BOOL)windowShouldClose:(id)sender
 {
-	if (dirty)
+	if ([self isDocumentEdited])
 	{
 		// Note: We use the didDismiss selector becuase the sheet needs to be closed in order for performClose: to work.
 		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, nil, @selector(dirtyCloseSheetDidDismiss:returnCode:contextInfo:), nil, @"Your changes will be lost if you do not save them.");

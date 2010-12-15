@@ -41,7 +41,6 @@
 	id observerObject;
 	
 	// Document
-	BOOL dirty;
 	int64_t sessionLockValue;
 	int loadedWorldIndex;
 	int attemptedLoadWorldIndex;
