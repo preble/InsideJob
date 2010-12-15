@@ -35,6 +35,7 @@ After changing your inventory you will need to save the currently open world usi
 
 #### Unreleased (changes not in the binary builds)
 
+- Inside Job now allows negative damage values (such as -1000) to create indestructible items.
 - Streamlined keyboard item-adding: search with Command-F, down arrow to navigate to item, then return adds it to the first available inventory slot.
 
 #### 1.0.1 - November 2, 2010
