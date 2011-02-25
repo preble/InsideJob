@@ -23,17 +23,7 @@
 23,Dispenser
 24,Sandstone
 25,Note Block
-26,Green-Blue Wool Block
-27,Blue-Green Wool Block
-28,Blue Wool Block
-29,Purple Wool Block
-30,Indigo Wool Block
-31,Violet Wool Block
-32,Magenta Wool Block
-33,Pink Wool Block
-34,Black Wool Block
-35,White Cloth
-36,White Wool Block
+35,Wool
 37,Yellow Flower
 38,Red Rose
 39,Brown Mushroom
@@ -84,12 +74,12 @@
 84,Jukebox
 85,Fence
 86,Pumpkin
-87,Hellstone
-88,Slow Sand
-89,Lightstone Ore
+87,Netherrack
+88,Soul Sand
+89,Glowstone
 90,Portal
 91,Jack-O-Lantern
-92,Cake (Block)
+92,Cake Block
 256,Iron Spade
 257,Iron Pickaxe
 258,Iron Axe
@@ -172,7 +162,6 @@
 335,Milk Bucket
 336,Clay Brick
 337,Clay Balls
-338,Reed
 338,Sugar Cane
 339,Paper
 340,Book
@@ -183,7 +172,7 @@
 345,Compass
 346,Fishing Rod
 347,Watch
-348,Lightstone Dust
+348,Glowstone Dust
 349,Raw Fish
 350,Cooked Fish
 351,Ink Sack
