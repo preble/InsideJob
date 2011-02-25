@@ -18,8 +18,8 @@
 18,Leaves
 19,Sponge
 20,Glass
-21,Lapis Lazui Ore
-22,Lapis Lazui Block
+21,Lapis Lazuli Ore
+22,Lapis Lazuli Block
 23,Dispenser
 24,Sandstone
 25,Note Block
@@ -32,6 +32,10 @@
 42,Iron Block
 43,Double Step
 44,Step
+# 44,Stone Step, 0
+# 44,Sandstone Step, 1
+# 44,Wodden Step, 2
+# 44,Cobblestone Step, 3
 45,Brick
 46,TNT
 47,Bookcase
@@ -80,6 +84,8 @@
 90,Portal
 91,Jack-O-Lantern
 92,Cake Block
+93,Redstone Repeater (off)
+94,Redstone Repeater (on)
 256,Iron Spade
 257,Iron Pickaxe
 258,Iron Axe
@@ -175,9 +181,28 @@
 348,Glowstone Dust
 349,Raw Fish
 350,Cooked Fish
-351,Ink Sack
+#Dye
+#351,Ink sack,0
+#351,Rose Red,1
+#351,Cactus Green,2
+#351,Brown,3
+#351,Lapis Lazuli Dye,4
+#351,Purple Dye,5
+#351,Cyan Dye,6
+#351,Light Gray Dye,7
+#351,Gray Dye,8
+#351,Pink Dye,9
+#351,Lime Dye,10
+#351,Dandelion Yellow Dye,11
+#351,Light Blue Dye,12
+#351,Magenta Dye,13
+#351,Orange Dye,14
+#351,Bone Meal,15
+351,Dye
+#Dye End
 352,Bone
 353,Sugar
 354,Cake
+355,Bed
 2256,Gold Record
 2257,Green Record

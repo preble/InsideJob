@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* InsideJobAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* InsideJobAppDelegate.m */; };
+		663803B2131769E90015CFAD /* blockNotFound.png in Resources */ = {isa = PBXBuildFile; fileRef = 663803B1131769E90015CFAD /* blockNotFound.png */; };
 		668B2556125D5A3E0060BF71 /* NBTContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B2555125D5A3E0060BF71 /* NBTContainer.m */; };
 		668B255C125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B255B125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m */; };
 		668B2560125D5C1C0060BF71 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 668B255F125D5C1C0060BF71 /* libz.dylib */; };
@@ -42,6 +43,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		663803B1131769E90015CFAD /* blockNotFound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blockNotFound.png; sourceTree = "<group>"; };
 		668B2554125D5A3E0060BF71 /* NBTContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBTContainer.h; sourceTree = "<group>"; };
 		668B2555125D5A3E0060BF71 /* NBTContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBTContainer.m; sourceTree = "<group>"; };
 		668B255A125D5BCA0060BF71 /* NSData+CocoaDevAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevAdditions.h"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		66BC07711262823E005A23F4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				663803B1131769E90015CFAD /* blockNotFound.png */,
 				66BCFE61125FCEC6005A23F4 /* DataValuesV110Transparent.png */,
 				66BCFC35125EA53E005A23F4 /* InsideJob.icns */,
 			);
@@ -291,6 +294,7 @@
 				66BCFC36125EA53E005A23F4 /* InsideJob.icns in Resources */,
 				66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */,
 				66BC077312628257005A23F4 /* ItemPropertiesView.xib in Resources */,
+				663803B2131769E90015CFAD /* blockNotFound.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
