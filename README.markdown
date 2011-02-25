@@ -33,8 +33,10 @@ After changing your inventory you will need to save the currently open world usi
 
 ### Release Notes
 
-#### Unreleased (changes not in the binary builds)
+#### 1.0.2 - February 25, 2011
 
+- Inside Job presently only supports worlds named "World1" thru "World5".  Support for worlds with other names will be added in a future release.
+- Added 1.3 and 1.2 beta items, as well as "unknown item" image, thanks to Nick Loose!
 - Inside Job now allows negative damage values (such as -1000) to create indestructible items.
 - Streamlined keyboard item-adding: search with Command-F, down arrow to navigate to item, then return adds it to the first available inventory slot.
 
