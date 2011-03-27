@@ -33,6 +33,10 @@ After changing your inventory you will need to save the currently open world usi
 
 ### Release Notes
 
+#### 1.1.1 - March 27, 2011
+
+- Fixed delete not working in search field.
+
 #### 1.1.0 - March 26, 2011
 
 - Added support for Minecraft 1.3 rename-able worlds.
