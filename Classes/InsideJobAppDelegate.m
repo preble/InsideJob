@@ -15,6 +15,7 @@ NSString * const IJKeyName = @"IJKeyName";
 @interface InsideJobAppDelegate ()
 - (void)updateWorldsList;
 - (IBAction)worldChooserTableSelectionChanged:(id)sender;
+- (void)updateWorldChooserWindowShown;
 @end
 
 @implementation InsideJobAppDelegate
@@ -27,6 +28,8 @@ NSString * const IJKeyName = @"IJKeyName";
 	[self worldChooserTableSelectionChanged:self];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifyWindowWillClose:) name:NSWindowWillCloseNotification object:nil];
+	
+	[self updateWorldChooserWindowShown];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
@@ -133,7 +136,7 @@ NSString * const IJKeyName = @"IJKeyName";
 	return [[worlds objectAtIndex:row] objectForKey:IJKeyName];
 }
 
-- (void)notifyWindowWillClose:(NSNotification *)notification
+- (void)notifyWindowWillClose:(NSNotification *)notification // NSWindowWillCloseNotification
 {
 	// Check after a short delay because the document is still open:
 	[self performSelector:@selector(updateWorldChooserWindowShown) withObject:nil afterDelay:0.1];

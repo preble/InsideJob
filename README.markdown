@@ -33,6 +33,11 @@ After changing your inventory you will need to save the currently open world usi
 
 ### Release Notes
 
+#### 1.1.0 - March 26, 2011
+
+- Added support for Minecraft 1.3 rename-able worlds.
+- Inside Job is now a document-based application.
+
 #### 1.0.2 - February 25, 2011
 
 - Inside Job presently only supports worlds named "World1" thru "World5".  Support for worlds with other names will be added in a future release.
