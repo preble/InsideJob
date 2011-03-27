@@ -526,7 +526,8 @@
 		}
 		return YES;
 	}
-	return YES;
+	else
+		return NO; // return NO to say that we aren't handling this command.
 }
 
 
