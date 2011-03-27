@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface InsideJobAppDelegate : NSObject <NSApplicationDelegate> {
-	
+@interface InsideJobAppDelegate : NSObject <NSApplicationDelegate, NSMenuDelegate> {
+	NSArray *menuWorldURLs;
 }
 
 @end
