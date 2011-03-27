@@ -248,6 +248,15 @@
 	[self updateChangeCount:NSChangeDone];
 }
 
+- (NSString *)displayName
+{
+	NSString *name = [level levelName];
+	if (!name)
+		return [super displayName];
+	else
+		return name;
+}
+
 #pragma mark -
 #pragma mark Actions
 

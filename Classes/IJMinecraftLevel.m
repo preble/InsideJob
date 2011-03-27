@@ -21,6 +21,16 @@
 	return nil;
 }
 
+- (NSString *)levelName
+{
+	NBTContainer *dataCompound = [self childNamed:@"Data"];
+	NBTContainer *levelNameCompound = [dataCompound childNamed:@"LevelName"];
+	if (!levelNameCompound)
+		return nil;
+	else
+		return [levelNameCompound stringValue];
+}
+
 - (NBTContainer *)inventoryList
 {
 	// Inventory is found in:
@@ -160,5 +170,28 @@
 	return checkValue == milliseconds;
 }
 
++ (NSArray *)minecraftLevelURLs
+{
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	NSString *path = [paths objectAtIndex:0];
+	path = [path stringByAppendingPathComponent:@"minecraft"];
+	path = [path stringByAppendingPathComponent:@"saves"];
+	
+	NSMutableArray *output = [NSMutableArray array];
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSDirectoryEnumerator *dirEnum;
+	dirEnum = [fm enumeratorAtURL:[NSURL fileURLWithPath:path]
+	   includingPropertiesForKeys:[NSArray arrayWithObjects:NSFileType, nil]
+						  options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+					 errorHandler:nil];
+	for (NSURL *url in dirEnum)
+	{
+		NSURL *levelURL = [url URLByAppendingPathComponent:@"level.dat"];
+		if ([fm fileExistsAtPath:[levelURL path]])
+			[output addObject:levelURL];
+	}
+	return output;
+}
 
 @end
