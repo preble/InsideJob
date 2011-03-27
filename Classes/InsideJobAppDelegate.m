@@ -7,22 +7,16 @@
 //
 
 #import "InsideJobAppDelegate.h"
-#import "IJInventoryWindowController.h"
 
 @implementation InsideJobAppDelegate
 
-@synthesize inventoryWindowController;
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[inventoryWindowController worldSelectionChanged:nil];
+
 }
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
-	BOOL shouldClose = [inventoryWindowController windowShouldClose:nil];
-	if (shouldClose)
-		return NSTerminateNow;
-	else
-		return NSTerminateCancel;
+	return NO;
 }
 
 @end

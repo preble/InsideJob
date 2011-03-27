@@ -15,9 +15,10 @@
 		668B2560125D5C1C0060BF71 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 668B255F125D5C1C0060BF71 /* libz.dylib */; };
 		668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */; };
 		668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */; };
-		668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */; };
 		668B290F125E40560060BF71 /* Items.csv in Resources */ = {isa = PBXBuildFile; fileRef = 668B28D8125E370A0060BF71 /* Items.csv */; };
 		6697AD7212B86762001890C6 /* IJTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6697AD7112B86762001890C6 /* IJTableView.m */; };
+		66B95D81133EBFF10052E5CA /* IJDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B95D80133EBFF10052E5CA /* IJDocument.m */; };
+		66B95D83133EC2920052E5CA /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66B95D82133EC2920052E5CA /* Document.xib */; };
 		66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC00021260215C005A23F4 /* IJInventoryView.m */; };
 		66BC000E12602359005A23F4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66BC000D12602359005A23F4 /* QuartzCore.framework */; };
 		66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BC033A1260CC59005A23F4 /* MAAttachedWindow.m */; };
@@ -53,12 +54,13 @@
 		668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJMinecraftLevel.m; sourceTree = "<group>"; };
 		668B27B0125D8F8E0060BF71 /* IJInventoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryItem.h; sourceTree = "<group>"; };
 		668B27B1125D8F8E0060BF71 /* IJInventoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryItem.m; sourceTree = "<group>"; };
-		668B27F0125D963F0060BF71 /* IJInventoryWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryWindowController.h; sourceTree = "<group>"; };
-		668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryWindowController.m; sourceTree = "<group>"; };
 		668B28D8125E370A0060BF71 /* Items.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Items.csv; sourceTree = "<group>"; };
 		6697AD7012B86762001890C6 /* IJTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJTableView.h; sourceTree = "<group>"; };
 		6697AD7112B86762001890C6 /* IJTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJTableView.m; sourceTree = "<group>"; };
 		6697ADA812B86A07001890C6 /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; wrapsLines = 1; };
+		66B95D7F133EBFF10052E5CA /* IJDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJDocument.h; sourceTree = "<group>"; };
+		66B95D80133EBFF10052E5CA /* IJDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJDocument.m; sourceTree = "<group>"; };
+		66B95D82133EC2920052E5CA /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Document.xib; sourceTree = "<group>"; };
 		66BC00011260215C005A23F4 /* IJInventoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IJInventoryView.h; sourceTree = "<group>"; };
 		66BC00021260215C005A23F4 /* IJInventoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IJInventoryView.m; sourceTree = "<group>"; };
 		66BC000D12602359005A23F4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -160,6 +162,7 @@
 				8D1107310486CEB800E47090 /* InsideJob-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				66B95D82133EC2920052E5CA /* Document.xib */,
 				66BC077212628257005A23F4 /* ItemPropertiesView.xib */,
 				668B28D8125E370A0060BF71 /* Items.csv */,
 				66BCFC2A125E9A51005A23F4 /* Credits.rtf */,
@@ -179,6 +182,8 @@
 		668B2551125D59BF0060BF71 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				66B95D7F133EBFF10052E5CA /* IJDocument.h */,
+				66B95D80133EBFF10052E5CA /* IJDocument.m */,
 				668B27AD125D8EFD0060BF71 /* IJMinecraftLevel.h */,
 				668B27AE125D8EFD0060BF71 /* IJMinecraftLevel.m */,
 				668B27B0125D8F8E0060BF71 /* IJInventoryItem.h */,
@@ -203,8 +208,6 @@
 		668B27F3125D96470060BF71 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				668B27F0125D963F0060BF71 /* IJInventoryWindowController.h */,
-				668B27F1125D963F0060BF71 /* IJInventoryWindowController.m */,
 				66BC00011260215C005A23F4 /* IJInventoryView.h */,
 				66BC00021260215C005A23F4 /* IJInventoryView.m */,
 				66BC03601260D095005A23F4 /* IJItemPropertiesViewController.h */,
@@ -295,6 +298,7 @@
 				66BCFE62125FCEC6005A23F4 /* DataValuesV110Transparent.png in Resources */,
 				66BC077312628257005A23F4 /* ItemPropertiesView.xib in Resources */,
 				663803B2131769E90015CFAD /* blockNotFound.png in Resources */,
+				66B95D83133EC2920052E5CA /* Document.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,12 +315,12 @@
 				668B255C125D5BCA0060BF71 /* NSData+CocoaDevAdditions.m in Sources */,
 				668B27AF125D8EFD0060BF71 /* IJMinecraftLevel.m in Sources */,
 				668B27B2125D8F8E0060BF71 /* IJInventoryItem.m in Sources */,
-				668B27F2125D963F0060BF71 /* IJInventoryWindowController.m in Sources */,
 				66BC00031260215C005A23F4 /* IJInventoryView.m in Sources */,
 				66BC033B1260CC59005A23F4 /* MAAttachedWindow.m in Sources */,
 				66BC03621260D095005A23F4 /* IJItemPropertiesViewController.m in Sources */,
 				66BC04F812619072005A23F4 /* NSColor+Additions.m in Sources */,
 				6697AD7212B86762001890C6 /* IJTableView.m in Sources */,
+				66B95D81133EBFF10052E5CA /* IJDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

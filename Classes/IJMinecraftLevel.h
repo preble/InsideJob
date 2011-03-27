@@ -16,14 +16,10 @@
 @property (nonatomic, copy) NSArray *inventory; // Array of IJInventoryItem objects.
 @property (nonatomic, readonly) NBTContainer *worldTimeContainer;
 
-+ (NSString *)pathForWorldAtIndex:(int)worldIndex;
-+ (NSString *)pathForLevelDatAtIndex:(int)worldIndex;
-+ (NSString *)pathForSessionLockAtIndex:(int)worldIndex;
++ (NSString *)pathForSessionLockForWorldAtURL:(NSURL *)worldURL;
 
-+ (BOOL)worldExistsAtIndex:(int)worldIndex;
-
-+ (int64_t)writeToSessionLockAtIndex:(int)worldIndex;
-+ (BOOL)checkSessionLockAtIndex:(int)worldIndex value:(int64_t)checkValue;
++ (int64_t)writeToSessionLockForWorldAtURL:(NSURL *)worldURL;
++ (BOOL)checkSessionLockForWorldAtURL:(NSURL *)worldURL value:(int64_t)checkValue;
 
 
 @end

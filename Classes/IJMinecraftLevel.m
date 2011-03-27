@@ -100,9 +100,12 @@
 {
 	return [[[self class] pathForWorldAtIndex:worldIndex] stringByAppendingPathComponent:@"level.dat"];
 }
-+ (NSString *)pathForSessionLockAtIndex:(int)worldIndex
+
++ (NSString *)pathForSessionLockForWorldAtURL:(NSURL *)worldURL
 {
-	return [[[self class] pathForWorldAtIndex:worldIndex] stringByAppendingPathComponent:@"session.lock"];
+	NSString *path = [worldURL path];
+	path = [path stringByDeletingLastPathComponent];
+	return [path stringByAppendingPathComponent:@"session.lock"];
 }
 
 + (BOOL)worldExistsAtIndex:(int)worldIndex
@@ -128,9 +131,9 @@
 	return n;
 }
 
-+ (int64_t)writeToSessionLockAtIndex:(int)worldIndex
++ (int64_t)writeToSessionLockForWorldAtURL:(NSURL *)worldURL
 {
-	NSString *path = [IJMinecraftLevel pathForSessionLockAtIndex:worldIndex];
+	NSString *path = [IJMinecraftLevel pathForSessionLockForWorldAtURL:worldURL];
 	NSDate *now = [NSDate date];
 	NSTimeInterval interval = [now timeIntervalSince1970];
 	int64_t milliseconds = (int64_t)(interval * 1000.0);
@@ -142,9 +145,9 @@
 	return milliseconds;
 }
 
-+ (BOOL)checkSessionLockAtIndex:(int)worldIndex value:(int64_t)checkValue
++ (BOOL)checkSessionLockForWorldAtURL:(NSURL *)worldURL value:(int64_t)checkValue
 {
-	NSString *path = [IJMinecraftLevel pathForSessionLockAtIndex:worldIndex];
+	NSString *path = [IJMinecraftLevel pathForSessionLockForWorldAtURL:worldURL];
 	NSData *data = [NSData dataWithContentsOfFile:path];
 
 	if (!data)

@@ -1,54 +1,35 @@
 //
-//  IJInventoryWindowController.m
+//  IJDocument.m
 //  InsideJob
 //
-//  Created by Adam Preble on 10/7/10.
-//  Copyright 2010 Adam Preble. All rights reserved.
+//  Created by Adam Preble on 3/26/11.
+//  Copyright 2011 Adam Preble. All rights reserved.
 //
 
-#import "IJInventoryWindowController.h"
+#import "IJDocument.h"
 #import "IJMinecraftLevel.h"
 #import "IJInventoryItem.h"
 #import "IJInventoryView.h"
 #import "IJItemPropertiesViewController.h"
 #import "MAAttachedWindow.h"
 
-@interface IJInventoryWindowController ()
-- (void)saveWorld;
-- (void)loadWorldAtIndex:(int)worldIndex;
-- (BOOL)isDocumentEdited;
+@interface IJDocument ()
 @end
 
-@implementation IJInventoryWindowController
+@implementation IJDocument
 
-@synthesize worldSelectionControl;
-@synthesize statusTextField;
-@synthesize inventoryView, armorView, quickView;
-@synthesize itemSearchField, itemTableView;
-
-
-- (void)awakeFromNib
+- (id)init
 {
-	armorInventory = [[NSMutableArray alloc] init];
-	quickInventory = [[NSMutableArray alloc] init];
-	normalInventory = [[NSMutableArray alloc] init];
-	statusTextField.stringValue = @"";
-	
-	[inventoryView setRows:3 columns:9 invert:NO];
-	[quickView setRows:1 columns:9 invert:NO];
-	[armorView setRows:4 columns:1 invert:YES];
-	inventoryView.delegate = self;
-	quickView.delegate = self;
-	armorView.delegate = self;
-
-	// Item Table View setup
-	NSArray *keys = [[IJInventoryItem itemIdLookup] allKeys];
-	keys = [keys sortedArrayUsingSelector:@selector(compare:)];
-	allItemIds = [[NSArray alloc] initWithArray:keys];
-	filteredItemIds = [allItemIds retain];
-	
-	[itemTableView setTarget:self];
-	[itemTableView setDoubleAction:@selector(itemTableViewDoubleClicked:)];
+    self = [super init];
+    if (self) {
+        // Initialization code here.
+		armorInventory = [[NSMutableArray alloc] init];
+		quickInventory = [[NSMutableArray alloc] init];
+		normalInventory = [[NSMutableArray alloc] init];
+		[self setHasUndoManager:NO];
+    }
+    
+    return self;
 }
 
 - (void)dealloc
@@ -62,46 +43,60 @@
 	[super dealloc];
 }
 
-
-#pragma mark -
-#pragma mark World Selection
-
-- (void)dirtyLoadSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo
+- (NSString *)windowNibName
 {
-	if (returnCode == NSAlertOtherReturn) // Cancel
-	{
-		[worldSelectionControl setSelectedSegment:loadedWorldIndex-1];
-		return;
-	}
-	
-	if (returnCode == NSAlertDefaultReturn) // Save
-	{
-		[self saveWorld];
-		[self loadWorldAtIndex:attemptedLoadWorldIndex];
-	}
-	else if (returnCode == NSAlertAlternateReturn) // Don't save
-	{
-		[self setDocumentEdited:NO]; // Slightly hacky -- prevent the alert from being put up again.
-		[self loadWorldAtIndex:attemptedLoadWorldIndex];
-	}
+    return @"Document";
 }
 
-- (void)loadWorldAtIndex:(int)worldIndex
+- (void)windowControllerDidLoadNib:(NSWindowController *)windowController
 {
-	if ([self isDocumentEdited])
-	{
-		attemptedLoadWorldIndex = worldIndex;
-		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, @selector(dirtyLoadSheetDidEnd:returnCode:contextInfo:), nil, nil, @"Your changes will be lost if you do not save them.");
-		return;
-	}
+	[inventoryView setRows:3 columns:9 invert:NO];
+	[quickView setRows:1 columns:9 invert:NO];
+	[armorView setRows:4 columns:1 invert:YES];
+	inventoryView.delegate = self;
+	quickView.delegate = self;
+	armorView.delegate = self;
 	
-	[armorInventory removeAllObjects];
-	[quickInventory removeAllObjects];
-	[normalInventory removeAllObjects];
+	// Item Table View setup
+	NSArray *keys = [[IJInventoryItem itemIdLookup] allKeys];
+	keys = [keys sortedArrayUsingSelector:@selector(compare:)];
+	allItemIds = [[NSArray alloc] initWithArray:keys];
+	filteredItemIds = [allItemIds retain];
+	
+	[itemTableView setTarget:self];
+	[itemTableView setDoubleAction:@selector(itemTableViewDoubleClicked:)];
+	[itemTableView reloadData];
+	
 	
 	[inventoryView setItems:normalInventory];
 	[quickView setItems:quickInventory];
 	[armorView setItems:armorInventory];
+}
+
+#pragma mark -
+#pragma mark File Reading/Writing
+
+// Save a "level~.dat" file as a backup.
+- (BOOL)keepBackupFile
+{
+	return YES;
+}
+
+- (void)saveDocument:(id)sender
+{
+	if (![IJMinecraftLevel checkSessionLockForWorldAtURL:[self fileURL] value:sessionLockValue])
+	{
+		NSBeginCriticalAlertSheet(@"Another application has opened this world.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"The session lock was changed by another application. You must Revert this world in order to make changes.");
+		return;
+	}
+	[super saveDocument:sender];
+}
+
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
+{
+	[armorInventory removeAllObjects];
+	[quickInventory removeAllObjects];
+	[normalInventory removeAllObjects];
 	
 	[self willChangeValueForKey:@"worldTime"];
 	[level release];
@@ -110,30 +105,20 @@
 	inventory = nil;
 	[self didChangeValueForKey:@"worldTime"];
 	
-	statusTextField.stringValue = @"No world loaded.";
-	
-	if (![IJMinecraftLevel worldExistsAtIndex:worldIndex])
+	sessionLockValue = [IJMinecraftLevel writeToSessionLockForWorldAtURL:[self fileURL]];
+	if (![IJMinecraftLevel checkSessionLockForWorldAtURL:[self fileURL] value:sessionLockValue])
 	{
-		NSBeginCriticalAlertSheet(@"No world exists in that slot.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Please create a new single player world in this slot using Minecraft and try again.");
-		return;
+		NSBeginCriticalAlertSheet(@"Error loading world.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"Inside Job was unable obtain the session lock.");
+		return NO;
 	}
 	
-	sessionLockValue = [IJMinecraftLevel writeToSessionLockAtIndex:worldIndex];
-	if (![IJMinecraftLevel checkSessionLockAtIndex:worldIndex value:sessionLockValue])
-	{
-		NSBeginCriticalAlertSheet(@"Error loading world.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable obtain the session lock.");
-		return;
-	}
-	
-	NSString *levelPath = [IJMinecraftLevel pathForLevelDatAtIndex:worldIndex];
-	
-	NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:levelPath]];
+	NSData *fileData = [NSData dataWithContentsOfURL:absoluteURL];
 	
 	if (!fileData)
 	{
 		// Error loading 
-		NSBeginCriticalAlertSheet(@"Error loading world.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"InsideJob was unable to load the level at %@.", levelPath);
-		return;
+		NSBeginCriticalAlertSheet(@"Error loading world.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"InsideJob was unable to load the level at %@.", [absoluteURL path]);
+		return NO;
 	}
 	
 	[self willChangeValueForKey:@"worldTime"];
@@ -173,31 +158,28 @@
 		}
 	}
 	
-//	NSLog(@"normal: %@", normalInventory);
-//	NSLog(@"quick: %@", quickInventory);
+	//	NSLog(@"normal: %@", normalInventory);
+	//	NSLog(@"quick: %@", quickInventory);
 	
+	// For the first time load these outlets will not be set (so we do it in windowControllerDidLoadNib:),
+	// but in the case of a revert we need to do this.
 	[inventoryView setItems:normalInventory];
 	[quickView setItems:quickInventory];
 	[armorView setItems:armorInventory];
 	
-	[self setDocumentEdited:NO];
-	statusTextField.stringValue = @"";
-	loadedWorldIndex = worldIndex;
+	return YES;
 }
 
-- (void)saveWorld
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	int worldIndex = loadedWorldIndex;
-	if (inventory == nil)
-		return; // no world loaded, nothing to save
 	
-	if (![IJMinecraftLevel checkSessionLockAtIndex:worldIndex value:sessionLockValue])
-	{
-		NSBeginCriticalAlertSheet(@"Another application has modified this world.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"The session lock was changed by another application.");
-		return;
-	}
+//	if (![IJMinecraftLevel checkSessionLockForWorldAtURL:[self fileURL] value:sessionLockValue])
+//	{
+//		NSBeginCriticalAlertSheet(@"Another application has modified this world.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"The session lock was changed by another application.");
+//		return NO;
+//	}
 	
-	NSString *levelPath = [IJMinecraftLevel pathForLevelDatAtIndex:worldIndex];
+	NSString *levelPath = [absoluteURL path];
 	
 	NSMutableArray *newInventory = [NSMutableArray array];
 	
@@ -217,26 +199,26 @@
 	BOOL success = NO;
 	NSError *error = nil;
 	
-	// Remove a previously-created .insidejobbackup, if it exists:
-	if ([[NSFileManager defaultManager] fileExistsAtPath:backupPath])
-	{
-		success = [[NSFileManager defaultManager] removeItemAtPath:backupPath error:&error];
-		if (!success)
-		{
-			NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
-			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to remove the prior backup of this level file:\n%@", [error localizedDescription]);
-			return;
-		}
-	}
-	
-	// Create the backup:
-	success = [[NSFileManager defaultManager] copyItemAtPath:levelPath toPath:backupPath error:&error];
-	if (!success)
-	{
-		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
-		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to create a backup of the existing level file:\n%@", [error localizedDescription]);
-		return;
-	}
+//	// Remove a previously-created .insidejobbackup, if it exists:
+//	if ([[NSFileManager defaultManager] fileExistsAtPath:backupPath])
+//	{
+//		success = [[NSFileManager defaultManager] removeItemAtPath:backupPath error:&error];
+//		if (!success)
+//		{
+//			NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+//			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"Inside Job was unable to remove the prior backup of this level file:\n%@", [error localizedDescription]);
+//			return NO;
+//		}
+//	}
+//	
+//	// Create the backup:
+//	success = [[NSFileManager defaultManager] copyItemAtPath:levelPath toPath:backupPath error:&error];
+//	if (!success)
+//	{
+//		NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription]);
+//		NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"Inside Job was unable to create a backup of the existing level file:\n%@", [error localizedDescription]);
+//		return NO;
+//	}
 	
 	// Write the new level.dat out:
 	success = [[level writeData] writeToURL:[NSURL fileURLWithPath:levelPath] options:0 error:&error];
@@ -249,60 +231,35 @@
 		if (!success)
 		{
 			NSLog(@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [restoreError localizedDescription]);
-			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup could not be restored.\n%@\n%@", [error localizedDescription], [restoreError localizedDescription]);
+			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup could not be restored.\n%@\n%@", [error localizedDescription], [restoreError localizedDescription]);
 		}
 		else
 		{
-			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.window, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup was successfully restored.\n%@", [error localizedDescription]);
+			NSBeginCriticalAlertSheet(@"An error occurred while saving.", @"Dismiss", nil, nil, self.windowForSheet, nil, nil, nil, nil, @"Inside Job was unable to save to the existing level file, and the backup was successfully restored.\n%@", [error localizedDescription]);
 		}
-		return;
+		return NO;
 	}
 	
-	[self setDocumentEdited:NO];
-	statusTextField.stringValue = @"Saved.";
+	return YES;
 }
 
-- (void)setDocumentEdited:(BOOL)edited
+- (void)setDocumentEdited
 {
-	[super setDocumentEdited:edited];
-	if (edited)
-		statusTextField.stringValue = @"World has unsaved changes.";
-}
-
-- (BOOL)isDocumentEdited
-{
-	return [self.window isDocumentEdited];
+	[self updateChangeCount:NSChangeDone];
 }
 
 #pragma mark -
 #pragma mark Actions
 
-- (IBAction)menuSelectWorld:(id)sender
-{
-	int worldIndex = [sender tag];
-	[self loadWorldAtIndex:worldIndex];
-	[worldSelectionControl setSelectedSegment:worldIndex - 1];
-}
-
-- (IBAction)worldSelectionChanged:(id)sender
-{
-	int worldIndex = [worldSelectionControl selectedSegment] + 1;
-	[self loadWorldAtIndex:worldIndex];
-}
-
-- (void)saveDocument:(id)sender
-{
-	[self saveWorld];
-}
 
 - (void)delete:(id)sender
 {
-//	IJInventoryItem *item = [outlineView itemAtRow:[outlineView selectedRow]];
-//	item.count = 0;
-//	item.itemId = 0;
-//	item.damage = 0;
-//	[self setDocumentEdited:YES];
-//	[outlineView reloadItem:item];
+	//	IJInventoryItem *item = [outlineView itemAtRow:[outlineView selectedRow]];
+	//	item.count = 0;
+	//	item.itemId = 0;
+	//	item.damage = 0;
+	//	[self setDocumentEdited];
+	//	[outlineView reloadItem:item];
 }
 
 - (IBAction)makeSearchFieldFirstResponder:(id)sender
@@ -314,7 +271,7 @@
 {
 	if (anItem.action == @selector(saveDocument:))
 		return inventory != nil;
-		
+	
 	return YES;
 }
 
@@ -327,7 +284,7 @@
 	[self willChangeValueForKey:@"worldTime"];
 	[level worldTimeContainer].numberValue = number;
 	[self didChangeValueForKey:@"worldTime"];
-	[self setDocumentEdited:YES];
+	[self setDocumentEdited];
 }
 
 #pragma mark -
@@ -376,7 +333,7 @@
 		[itemArray replaceObjectAtIndex:itemIndex withObject:item];
 		[theInventoryView setItems:itemArray];
 	}
-	[self setDocumentEdited:YES];
+	[self setDocumentEdited];
 }
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView setItem:(IJInventoryItem *)item atIndex:(int)itemIndex
@@ -390,7 +347,7 @@
 		item.slot = slotOffset + itemIndex;
 		[theInventoryView setItems:itemArray];
 	}
-	[self setDocumentEdited:YES];
+	[self setDocumentEdited];
 }
 
 - (void)inventoryView:(IJInventoryView *)theInventoryView selectedItemAtIndex:(int)itemIndex
@@ -421,13 +378,13 @@
 		
 		propertiesWindow = [[MAAttachedWindow alloc] initWithView:propertiesViewController.view
 												  attachedToPoint:point
-														 inWindow:self.window
+														 inWindow:theInventoryView.window
 														   onSide:MAPositionRight
 													   atDistance:0];
 		[propertiesWindow setBackgroundColor:[NSColor controlBackgroundColor]];
 		[propertiesWindow setViewMargin:4.0];
 		[propertiesWindow setAlphaValue:1.0];
-		[[self window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
+		[[theInventoryView window] addChildWindow:propertiesWindow ordered:NSWindowAbove];
 	}
 	if (observerObject)
 		[[NSNotificationCenter defaultCenter] removeObserver:observerObject];
@@ -527,7 +484,7 @@
 			forType:IJPasteboardTypeInventoryItem];
 	
 	[item release];
-
+	
 	return YES;
 }
 
@@ -561,7 +518,7 @@
 	IJInventoryItem *item = [inventoryArray objectAtIndex:slot];
 	item.itemId = [[filteredItemIds objectAtIndex:[itemTableView selectedRow]] shortValue];
 	item.count = 1;
-	[self setDocumentEdited:YES];
+	[self setDocumentEdited];
 	
 	IJInventoryView *invView = [self inventoryViewForItemArray:inventoryArray];
 	[invView reloadItemAtIndex:slot];
@@ -571,39 +528,6 @@
 #pragma mark -
 #pragma mark NSWindowDelegate
 
-- (void)dirtyCloseSheetDidDismiss:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo
-{
-	if (returnCode == NSAlertOtherReturn) // Cancel
-		return;
-	
-	if (returnCode == NSAlertDefaultReturn) // Save
-	{
-		[self saveWorld];
-		[self.window performClose:nil];
-	}
-	else if (returnCode == NSAlertAlternateReturn) // Don't save
-	{
-		[self setDocumentEdited:NO]; // Slightly hacky -- prevent the alert from being put up again.
-		[self.window performClose:nil];
-	}
-}
-
-
-- (BOOL)windowShouldClose:(id)sender
-{
-	if ([self isDocumentEdited])
-	{
-		// Note: We use the didDismiss selector becuase the sheet needs to be closed in order for performClose: to work.
-		NSBeginInformationalAlertSheet(@"Do you want to save the changes you made in this world?", @"Save", @"Don't Save", @"Cancel", self.window, self, nil, @selector(dirtyCloseSheetDidDismiss:returnCode:contextInfo:), nil, @"Your changes will be lost if you do not save them.");
-		return NO;
-	}
-	return YES;
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-	[NSApp terminate:nil];
-}
 
 
 #pragma mark -
@@ -615,7 +539,7 @@
 	{
 		if ([itemTableView numberOfRows] > 0)
 		{
-			[self.window makeFirstResponder:itemTableView];
+			[itemTableView.window makeFirstResponder:itemTableView];
 			[itemTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 		}
 		return YES;
