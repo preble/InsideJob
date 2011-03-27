@@ -9,7 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface InsideJobAppDelegate : NSObject <NSApplicationDelegate, NSMenuDelegate> {
-	NSArray *menuWorldURLs;
+	NSMutableArray *worlds;
+	IBOutlet NSWindow *worldChooserWindow;
+	IBOutlet NSTableView *worldChooserTable;
+	IBOutlet NSButton *openButton;
 }
 
 @end
