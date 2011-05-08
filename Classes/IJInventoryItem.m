@@ -67,7 +67,11 @@
 	
 	int index = 0;
 	
-	if (itemId <= 94)
+    if (itemId == 27 || itemId == 28) {
+        index = 85 + itemId;
+        atlasOffset = NSMakePoint(1, 15);
+    }
+    else if (itemId <= 94)
 	{
 		if (itemId <= 17)
 			index = itemId - 1; // first item is 1
