@@ -2,9 +2,9 @@
 
 ### A Minecraft Alpha Inventory Editor for Mac OS X
 
-![Inside Job Screenshot](http://adampreble.net/images/InsideJob.png)
-
 Inside Job was written in early October 2010 by [Adam Preble](http://adampreble.net).
+**It is no longer being developed by me**, although there is a fairly active fork by McSpider, [McSpider/InsideJob](https://github.com/McSpider/InsideJob).
+I stopped work on InsideJob due to the labor of updating the item images, as well as lack of interest due to SMP (Survival Multiplayer Minecraft).
 
 Features include:
 
